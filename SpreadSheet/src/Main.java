@@ -6,7 +6,6 @@ public class Main {
 		
 		System.out.println("Hola David");	
 		System.out.println("Hola Daniel");	
-		System.out.println("Hola Daniel2");	
 	}
 
 }
