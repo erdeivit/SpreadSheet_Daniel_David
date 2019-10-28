@@ -1,4 +1,3 @@
-
 public class Main {
 
 	public static void main(String[] args) {
@@ -6,7 +5,6 @@ public class Main {
 		
 		System.out.println("Hola David");	
 		System.out.println("Hola Daniel");	
-		
 		System.out.println("Hola JULIO");
 	}
 
