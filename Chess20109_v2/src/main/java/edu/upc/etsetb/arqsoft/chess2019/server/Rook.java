@@ -16,6 +16,11 @@ public class Rook extends Piece {
     }
         
     public void isPieceMovement (int rs, int cs, int rd, int cd) throws NoPieceMovementException{
+
+        
+        if (rs != rd && cs != cd){
+            throw new NoPieceMovementException();
+        }
         
     }
  

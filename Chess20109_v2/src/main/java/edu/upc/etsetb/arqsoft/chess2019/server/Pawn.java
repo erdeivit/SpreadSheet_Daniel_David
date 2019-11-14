@@ -17,6 +17,11 @@ public class Pawn extends Piece{
         
     public void isPieceMovement (int rs, int cs, int rd, int cd) throws NoPieceMovementException{
         
+        if (cd == cs){
+            
+        }
+        
+        
     }
  
     public void isPathFree (int rs, int cs, int rd, int cd, Board b) throws PathFreeException{

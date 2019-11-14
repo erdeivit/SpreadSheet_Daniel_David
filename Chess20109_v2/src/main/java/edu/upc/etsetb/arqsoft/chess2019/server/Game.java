@@ -5,6 +5,9 @@
  */
 package edu.upc.etsetb.arqsoft.chess2019.server;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author JuanCarlos
@@ -15,13 +18,14 @@ public class Game {
     Board board;
     Player player_white;
     Player player_black;
+    Color playingColor;
 
     public Game() {
         
         this.board = new Board();
         this.player_black = new Player(Color.BLACK,board);
         this.player_white = new Player(Color.WHITE,board);
-        
+        this.playingColor = Color.WHITE;
     }
     
     public Board getBoard() {
@@ -53,7 +57,51 @@ public class Game {
         this.protMngr = protMngr;
     }
 
-    public void move(int rO, int cO, int rD, int cD) {
+    public void move(int rO, int cO, int rD, int cD){
+        
+        rO = rO-1;
+        cO = cO-1;
+        rD = rD-1;
+        cD = cD-1;
+        
+        Piece oPiece = this.board.getPiece(rO, cO);
+        
+        if(oPiece == null || oPiece.getColour()!= playingColor){
+            this.protMngr.sendFromServerToClient("E You do not own any piece in this square");
+            return;
+        }
+        
+        Piece dPiece = this.board.getPiece(rD, cD);
+        
+        if(dPiece != null && dPiece.getColour()== playingColor){
+            this.protMngr.sendFromServerToClient("E You own a piece in the destination square");
+            return;
+        }
+        if (playingColor == Color.WHITE){
+            try {
+                this.player_white.move(oPiece,rO,cO,rD,cD,this.board);
+                //QUEDA COMPROBAR LO DEL JAQUE AL MOVER LA PIEZA
+                this.player_white.proceedToMove(oPiece,rO,cO,rD,cD,this.board);
+                
+            } catch (NoPieceMovementException ex) {
+                this.protMngr.sendFromServerToClient("E The movement is not valid");
+            } catch (PathFreeException ex) {
+                this.protMngr.sendFromServerToClient("E There is a piece in your way to the destination, not valid movement");
+            }
+        }
+        else{
+            try {
+                this.player_black.move(oPiece,rO,cO,rD,cD,this.board);
+                
+                this.player_black.proceedToMove(oPiece,rO,cO,rD,cD,this.board);
+            } catch (NoPieceMovementException ex) {
+                this.protMngr.sendFromServerToClient("E The movement is not valid");
+            } catch (PathFreeException ex) {
+                this.protMngr.sendFromServerToClient("E There is a piece in your way to the destination, not valid movement");
+            }
+        }
+        
+        
         /*
         Initial version: it just sends back an OK message to the client.
         You should modify its code for implementing the sequence diagram in the 
@@ -98,9 +146,5 @@ public class Game {
         return ;
     }
     
-    public static void main(String args[]){
-        Game game = new Game();
-        System.out.println("GAME CREATED");
-    }
  
 }

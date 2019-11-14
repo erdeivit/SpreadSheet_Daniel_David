@@ -22,6 +22,20 @@ public abstract class Piece {
     public abstract void isPieceMovement (int rs, int cs, int rd, int cd) throws NoPieceMovementException;
  
     public abstract void isPathFree (int rs, int cs, int rd, int cd, Board b) throws PathFreeException; 
-    
+
+    public Color getColour() {
+        return colour;
+    }
+
+    public void setColour(Color colour) {
+        this.colour = colour;
+    }
+
+    public void canReachDestination(int rO, int cO, int rD, int cD, Board b) throws NoPieceMovementException, PathFreeException {
+        isPieceMovement(rO,cO,rD,cD);
+        isPathFree(rO,cO,rD,cD,b);
+        
+    }
+
     
 }

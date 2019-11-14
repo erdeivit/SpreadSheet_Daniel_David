@@ -113,4 +113,17 @@ public class Player {
         }
 
     }
+    
+    public static void move(Piece oPiece,int rO,int cO,int rD,int cD,Board b) throws NoPieceMovementException, PathFreeException{
+        
+        oPiece.canReachDestination(rO,cO,rD,cD,b);
+        
+    }
+
+    public void proceedToMove(Piece oPiece,int rO,int cO, int rD, int cD, Board b) {
+        b.setPiece(rD, cD, oPiece);
+        b.setPiece(rO, cO, null);    
+    }
+    
+    
 }
