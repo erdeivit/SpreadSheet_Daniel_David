@@ -16,16 +16,16 @@ public class Game {
 
     private ServerProtocolMngr protMngr;
     Board board;
-    Player player_white;
-    Player player_black;
-    Color playingColor;
+    Player player_white, player_black;
+    Player playingPlayer;
+
 
     public Game() {
         
         this.board = new Board();
         this.player_black = new Player(Color.BLACK,board);
         this.player_white = new Player(Color.WHITE,board);
-        this.playingColor = Color.WHITE;
+        this.playingPlayer = this.player_white;
     }
     
     public Board getBoard() {
@@ -66,39 +66,27 @@ public class Game {
         
         Piece oPiece = this.board.getPiece(rO, cO);
         
-        if(oPiece == null || oPiece.getColour()!= playingColor){
+        if(oPiece == null || oPiece.getColour()!= playingPlayer.getColor()){
             this.protMngr.sendFromServerToClient("E You do not own any piece in this square");
             return;
         }
         
         Piece dPiece = this.board.getPiece(rD, cD);
         
-        if(dPiece != null && dPiece.getColour()== playingColor){
+        if(dPiece != null && dPiece.getColour()== playingPlayer.getColor()){
             this.protMngr.sendFromServerToClient("E You own a piece in the destination square");
             return;
         }
-        if (playingColor == Color.WHITE){
-            try {
-                this.player_white.move(oPiece,rO,cO,rD,cD,this.board);
-                //QUEDA COMPROBAR LO DEL JAQUE AL MOVER LA PIEZA
-                this.player_white.proceedToMove(oPiece,rO,cO,rD,cD,this.board);
-                
-            } catch (NoPieceMovementException ex) {
-                this.protMngr.sendFromServerToClient("E The movement is not valid");
-            } catch (PathFreeException ex) {
-                this.protMngr.sendFromServerToClient("E There is a piece in your way to the destination, not valid movement");
-            }
-        }
-        else{
-            try {
-                this.player_black.move(oPiece,rO,cO,rD,cD,this.board);
-                
-                this.player_black.proceedToMove(oPiece,rO,cO,rD,cD,this.board);
-            } catch (NoPieceMovementException ex) {
-                this.protMngr.sendFromServerToClient("E The movement is not valid");
-            } catch (PathFreeException ex) {
-                this.protMngr.sendFromServerToClient("E There is a piece in your way to the destination, not valid movement");
-            }
+
+        try {
+            this.playingPlayer.move(oPiece,rO,cO,rD,cD,this.board);
+            //QUEDA COMPROBAR LO DEL JAQUE AL MOVER LA PIEZA
+            this.playingPlayer.proceedToMove(oPiece,rO,cO,rD,cD,this.board);
+
+        } catch (NoPieceMovementException ex) {
+            this.protMngr.sendFromServerToClient("E The movement is not valid");
+        } catch (PathFreeException ex) {
+            this.protMngr.sendFromServerToClient("E There is a piece in your way to the destination, not valid movement");
         }
         
         

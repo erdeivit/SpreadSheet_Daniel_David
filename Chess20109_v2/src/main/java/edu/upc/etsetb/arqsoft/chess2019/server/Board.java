@@ -11,7 +11,7 @@ package edu.upc.etsetb.arqsoft.chess2019.server;
  */
 public class Board {
     
-    Square[][] squares ;
+    private Square[][] squares ;
 
     public Board() {
         squares = new Square[8][8] ;

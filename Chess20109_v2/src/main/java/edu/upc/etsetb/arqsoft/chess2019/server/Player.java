@@ -17,6 +17,22 @@ public class Player {
     List<Piece> listofpieces;
     Color color;
 
+    public List<Piece> getListofpieces() {
+        return listofpieces;
+    }
+
+    public void setListofpieces(List<Piece> listofpieces) {
+        this.listofpieces = listofpieces;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     public Player(Color color, Board board) {
         this.color = color;
         this.listofpieces  = new ArrayList<>();
