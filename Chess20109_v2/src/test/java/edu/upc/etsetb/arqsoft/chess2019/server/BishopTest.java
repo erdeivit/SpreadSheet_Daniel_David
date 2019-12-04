@@ -13,7 +13,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 /**
@@ -21,13 +23,13 @@ import org.mockito.junit.MockitoJUnitRunner;
  * @author Daniel León
  */
 @RunWith(MockitoJUnitRunner.class)
-
-//@Mock
-//VA UNA DECLARACION DE UN OBJETO MOCKBOARD
-
 public class BishopTest {
     
-    private Bishop instance;
+    @Mock
+    Board board;
+    
+    @InjectMocks
+    Bishop instance;
     
     public BishopTest() {
         
@@ -145,18 +147,28 @@ public class BishopTest {
     /**
      * Test of isPathFree method, of class Bishop.
      */
+    
     @Test
     public void testIsPathFree() throws Exception {
         System.out.println("isPathFree");
-        int rs = 0;
-        int cs = 0;
-        int rd = 0;
-        int cd = 0;
-        Board b = null;
-        Bishop instance = null;
-        instance.isPathFree(rs, cs, rd, cd, b);
+        Mockito.when(this.board.getPiece(Mockito.anyInt(),Mockito.anyInt())).thenReturn(null) ;
+    }
+    
+    @Test(expected = PathFreeException.class)
+    public void tesstIsPathFreeOKNoPiece3c3() throws Exception{
+        Bishop oBishop = new Bishop(Color.BLACK);
+        
+        Mockito.when(this.board.getPiece(6,6)).thenReturn(oBishop);
+
+        int rs = 4;
+        int cs = 4;
+        int rd = 7;
+        int cd = 7;
+
+        instance.isPathFree(rs, cs, rd, cd, this.board);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
     
 }
+    

@@ -82,11 +82,14 @@ public class Game {
             this.playingPlayer.move(oPiece,rO,cO,rD,cD,this.board);
             //QUEDA COMPROBAR LO DEL JAQUE AL MOVER LA PIEZA
             this.playingPlayer.proceedToMove(oPiece,rO,cO,rD,cD,this.board);
+            
 
         } catch (NoPieceMovementException ex) {
             this.protMngr.sendFromServerToClient("E The movement is not valid");
+            return ;
         } catch (PathFreeException ex) {
             this.protMngr.sendFromServerToClient("E There is a piece in your way to the destination, not valid movement");
+            return ;
         }
         
         
