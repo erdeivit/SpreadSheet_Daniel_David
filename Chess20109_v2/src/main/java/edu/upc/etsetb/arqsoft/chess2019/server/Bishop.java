@@ -24,45 +24,45 @@ public class Bishop extends Piece{
     }
  
     public void isPathFree (int rs, int cs, int rd, int cd, Board b) throws PathFreeException{
-//
-//      if (rd-rs > 0 && cd-cs > 0){ //CUADRANTE DEBAJO DERECHA
-//          
-//          for (int i = 1 ; i <= (rd-rs) ; i++ ){
-//              if (b.getPiece(rs+i,cs+i) == null){
-//                  throw new PathFreeException();
-//              }
-//          }
-//          
-//      }
-//      else if (rd-rs < 0 && cd-cs > 0){ //CUADRANTE SUPERIOR DERECHO
-//          
-//          for (int i = 1 ; i <= (rs-rd) ; i++ ){
-//              if (b.getPiece(rs-i,cs+i) == null){
-//                  throw new PathFreeException();
-//              }
-//          }
-//          
-//      }
-//      else if (rd-rs < 0 && cd-cs < 0){ // CUADREANTE SUPERIOR IZQUIERDP
-//          
-//          for (int i = 1 ; i <= (rs-rd) ; i++ ){
-//              if (b.getPiece(rs-i,cs-i) == null){
-//                  throw new PathFreeException();
-//              }
-//          }
-//      }
-//      else if (rd-rs > 0 && cd-cs < 0){ //CUADRANTE INFERIOR DERECHO
-//          
-//           for (int i = 1 ; i <= (rd-rs) ; i++ ){
-//              if (b.getPiece(rs+i,cs-i) == null){
-//                  throw new PathFreeException();
-//              }
-//          }
-//      }
-//
-//        
-//
-//    
+
+      if (rd-rs > 0 && cd-cs > 0){ //CUADRANTE DEBAJO DERECHA
+          
+          for (int i = 1 ; i <= (rd-rs) ; i++ ){
+              if (b.getPiece(rs+i,cs+i) == null){
+                  throw new PathFreeException();
+              }
+          }
+          
+      }
+      else if (rd-rs < 0 && cd-cs > 0){ //CUADRANTE SUPERIOR DERECHO
+          
+          for (int i = 1 ; i <= (rs-rd) ; i++ ){
+              if (b.getPiece(rs-i,cs+i) == null){
+                  throw new PathFreeException();
+              }
+          }
+          
+      }
+      else if (rd-rs < 0 && cd-cs < 0){ // CUADREANTE SUPERIOR IZQUIERDP
+          
+          for (int i = 1 ; i <= (rs-rd) ; i++ ){
+              if (b.getPiece(rs-i,cs-i) == null){
+                  throw new PathFreeException();
+              }
+          }
+      }
+      else if (rd-rs > 0 && cd-cs < 0){ //CUADRANTE INFERIOR DERECHO
+          
+           for (int i = 1 ; i <= (rd-rs) ; i++ ){
+              if (b.getPiece(rs+i,cs-i) == null){
+                  throw new PathFreeException();
+              }
+          }
+      }
+
+        
+
+    
         
     }
     

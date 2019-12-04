@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="8" failures="1" name="edu.upc.etsetb.arqsoft.chess2019.server.BishopTest" time="0.047" errors="0" skipped="0">
+<testsuite tests="9" failures="0" name="edu.upc.etsetb.arqsoft.chess2019.server.BishopTest" time="0.06" errors="1" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="13.0.1+9"/>
@@ -58,43 +58,29 @@
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="edu.upc.etsetb.arqsoft.chess2019.server.BishopTest" name="tesstIsPathFreeOKNoPiece3c3" time="0.028"/>
+  <testcase classname="edu.upc.etsetb.arqsoft.chess2019.server.BishopTest" name="tesstIsPathFreeOKNoPiece3c3" time="0.031"/>
   <testcase classname="edu.upc.etsetb.arqsoft.chess2019.server.BishopTest" name="testIsPieceMovementOKr2cm2" time="0.001"/>
-  <testcase classname="edu.upc.etsetb.arqsoft.chess2019.server.BishopTest" name="testIsPieceMovementOKrm2c2" time="0.001"/>
-  <testcase classname="edu.upc.etsetb.arqsoft.chess2019.server.BishopTest" name="testIsPieceMovementKOr3cm2" time="0.002"/>
-  <testcase classname="edu.upc.etsetb.arqsoft.chess2019.server.BishopTest" name="testIsPathFree" time="0.003"/>
+  <testcase classname="edu.upc.etsetb.arqsoft.chess2019.server.BishopTest" name="testIsPieceMovementOKrm2c2" time="0"/>
+  <testcase classname="edu.upc.etsetb.arqsoft.chess2019.server.BishopTest" name="testIsPieceMovementKOr3cm2" time="0.006"/>
+  <testcase classname="edu.upc.etsetb.arqsoft.chess2019.server.BishopTest" name="testIsPathFree" time="0.002"/>
   <testcase classname="edu.upc.etsetb.arqsoft.chess2019.server.BishopTest" name="testIsPieceMovementOKr2c2" time="0"/>
-  <testcase classname="edu.upc.etsetb.arqsoft.chess2019.server.BishopTest" name="testConstAndGetColorOk" time="0.011">
-    <failure message="expected:&lt;BLACK&gt; but was:&lt;WHITE&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;BLACK&gt; but was:&lt;WHITE&gt;
-	at org.junit.Assert.fail(Assert.java:88)
-	at org.junit.Assert.failNotEquals(Assert.java:834)
-	at org.junit.Assert.assertEquals(Assert.java:118)
-	at org.junit.Assert.assertEquals(Assert.java:144)
-	at edu.upc.etsetb.arqsoft.chess2019.server.BishopTest.testConstAndGetColorOk(BishopTest.java:74)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
-	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
-	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
-	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
-	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
-	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
-	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
-	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
-	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
-	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
-	at org.mockito.internal.runners.DefaultInternalRunner$1.run(DefaultInternalRunner.java:79)
-	at org.mockito.internal.runners.DefaultInternalRunner.run(DefaultInternalRunner.java:85)
-	at org.mockito.internal.runners.StrictRunner.run(StrictRunner.java:39)
+  <testcase classname="edu.upc.etsetb.arqsoft.chess2019.server.BishopTest" name="testConstAndGetColorOk" time="0.001"/>
+  <testcase classname="edu.upc.etsetb.arqsoft.chess2019.server.BishopTest" name="testIsPieceMovementOKrm2cm2" time="0"/>
+  <testcase classname="edu.upc.etsetb.arqsoft.chess2019.server.BishopTest" name="unnecessary Mockito stubbings" time="0.019">
+    <error message="
+Unnecessary stubbings detected in test class: BishopTest
+Clean &amp; maintainable test code requires zero unnecessary code.
+Following stubbings are unnecessary (click to navigate to relevant line of code):
+  1. -&gt; at edu.upc.etsetb.arqsoft.chess2019.server.BishopTest.tesstIsPathFreeOKNoPiece3c3(BishopTest.java:161)
+  2. -&gt; at edu.upc.etsetb.arqsoft.chess2019.server.BishopTest.testIsPathFree(BishopTest.java:154)
+Please remove unnecessary stubbings or use &apos;lenient&apos; strictness. More info: javadoc for UnnecessaryStubbingException class." type="org.mockito.exceptions.misusing.UnnecessaryStubbingException">org.mockito.exceptions.misusing.UnnecessaryStubbingException: 
+Unnecessary stubbings detected in test class: BishopTest
+Clean &amp; maintainable test code requires zero unnecessary code.
+Following stubbings are unnecessary (click to navigate to relevant line of code):
+  1. -&gt; at edu.upc.etsetb.arqsoft.chess2019.server.BishopTest.tesstIsPathFreeOKNoPiece3c3(BishopTest.java:161)
+  2. -&gt; at edu.upc.etsetb.arqsoft.chess2019.server.BishopTest.testIsPathFree(BishopTest.java:154)
+Please remove unnecessary stubbings or use &apos;lenient&apos; strictness. More info: javadoc for UnnecessaryStubbingException class.
+	at org.mockito.internal.runners.StrictRunner.run(StrictRunner.java:49)
 	at org.mockito.junit.MockitoJUnitRunner.run(MockitoJUnitRunner.java:163)
 	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
 	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
@@ -108,9 +94,12 @@
 	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
 	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
-</failure>
-    <system-out>Test OK of construction of Piece, and getColor() from Piece
+</error>
+    <system-out>
+END of tests cases for Bishop in BishopTest
+
+
+****************************************************************
 </system-out>
   </testcase>
-  <testcase classname="edu.upc.etsetb.arqsoft.chess2019.server.BishopTest" name="testIsPieceMovementOKrm2cm2" time="0.001"/>
 </testsuite>

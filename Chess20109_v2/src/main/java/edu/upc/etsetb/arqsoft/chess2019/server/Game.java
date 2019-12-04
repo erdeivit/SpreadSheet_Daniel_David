@@ -25,7 +25,7 @@ public class Game {
         this.board = new Board();
         this.player_black = new Player(Color.BLACK,board);
         this.player_white = new Player(Color.WHITE,board);
-        this.playingPlayer = this.player_white;
+        this.playingPlayer = new Player(Color.WHITE,board);
     }
     
     public Board getBoard() {
@@ -65,10 +65,24 @@ public class Game {
         cD = cD-1;
         
         Piece oPiece = this.board.getPiece(rO, cO);
-        
-        if(oPiece == null || oPiece.getColour()!= playingPlayer.getColor()){
+        Color playingColor = this.playingPlayer.getColor();
+
+     
+        if(oPiece == null){
             this.protMngr.sendFromServerToClient("E You do not own any piece in this square");
             return;
+        }
+        
+         else{
+        
+            Color oPieceColor = oPiece.getColour();
+
+            if(oPieceColor!=playingColor){
+                this.protMngr.sendFromServerToClient("E the color of the piece in the origin square is not" +
+                " the right one. Expected " + playingColor + ". Arrived " + oPieceColor);
+            return ;
+        
+            }
         }
         
         Piece dPiece = this.board.getPiece(rD, cD);

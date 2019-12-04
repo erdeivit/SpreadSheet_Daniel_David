@@ -67,11 +67,11 @@ public class BishopTest {
      */
     @Test
     public void testConstAndGetColorOk() throws Exception{
-        System.out.println("Test OK of construction of Piece, and " + "getColor() from Piece");
+        System.out.println("Tet OK of construction of Piece, and " + "getColor() from Piece");
         Bishop bishop = new Bishop(Color.WHITE);
         Color color = bishop.getColour();
         //Assert.assertEquals("EXPECTED, OBTENIDO);
-        Assert.assertEquals(Color.BLACK,color);
+        Assert.assertEquals(Color.WHITE,color);
     }
     /**
      * Test of isPieceMovement method, of class Bishop.

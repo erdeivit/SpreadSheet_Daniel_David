@@ -72,4 +72,8 @@ public class Board {
     public Piece getPiece(int r, int c){
         return this.squares[r][c].getPiece();
     }
+    
+    public Color getPieceColor(int r, int c){
+        return this.squares[r][c].getPiece().getColour();
+    }
 }
