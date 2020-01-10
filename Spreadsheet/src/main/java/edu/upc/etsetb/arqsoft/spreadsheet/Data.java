@@ -11,8 +11,26 @@ package edu.upc.etsetb.arqsoft.spreadsheet;
  */
 public abstract class Data {
     
-    private String content;
+    protected String content;
+    protected String result;
 
+    public Data(String content, String result) {
+        this.content = content;
+        this.result = result;
+    }
+    
+    public Data(String content){
+        this.content = content;
+    }
+    
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+    
     public String getContent() {
         return content;
     }
@@ -20,11 +38,8 @@ public abstract class Data {
     public void setContent(String content) {
         this.content = content;
     }
+
     
-    public Data(String content){
-        this.content = content;
-    }
-    
-    public abstract void loadData();
+    public abstract void loadResult();
     
 }

@@ -11,13 +11,19 @@ package edu.upc.etsetb.arqsoft.spreadsheet;
  */
 public class Formula extends Data {
 
+    public Formula(String content, String result) {
+        super(content, result);
+    }
+
     public Formula(String content) {
         super(content);
     }
-     
     
-    public void loadData() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    public void loadResult() {
+        
+        //AQUI ES DONDE HAY QUE LLAMAR AL SHUTTING YARD
+        this.result = "EJECUTAR FORMULA";
     }
     
     

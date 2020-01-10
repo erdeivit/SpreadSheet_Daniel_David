@@ -23,42 +23,82 @@ import java.util.Scanner;
 public class Spreadsheet {
 
     private Map<String, Cell> cellMap ;
-    private String actualLine;
-    private String[] actualLineArray;
     private int total_rows;
     private int total_columns;
 
-    public Spreadsheet(String filename) throws FileNotFoundException, IOException {
+    public Spreadsheet()  {
         
-        cellMap = new TreeMap<>();
-        total_rows = 0;
-        Scanner file = new Scanner(new File(filename));    
-//        String actualLine = file.nextLine();
-//        String[] actualLineArray = actualLine.split(";"); 
-
-        while(file.hasNextLine()){  
-            
-            actualLine = file.nextLine();
-            total_rows++;
-            actualLineArray = actualLine.split(";");
-            
-           for(int i = 0; i< actualLineArray.length ; i++){
-               
-               //TEMPORAL ASIGNATION OF ALL THE DATA AS TYPE TEXT.
-               //VALIDATE EACH TYPE OF DATA.
-               
-               if (actualLineArray[i].isEmpty()){
-                   cellMap.put(toAlphabetic(i)+total_rows,new Cell(new Text("")));
-               }
-               else{
-                   cellMap.put(toAlphabetic(i)+total_rows,new Cell(new Text(actualLineArray[i])));
-               }           
-           }
-
-        }       
-        total_columns = actualLineArray.length;
+        this.cellMap = new TreeMap<>();
+        this.total_rows = 0;
+        this.total_columns = 0;
+       
     }
+    
+    public void loadFile(String filename)throws FileNotFoundException, IOException{
+         
+        Scanner file = new Scanner(new File(filename));   
+        
+        if (file != null){
+            
+            String actualLine;
+            String[] actualLineArray = null;
+            while(file.hasNextLine()){  
+                actualLine = file.nextLine();
+                total_rows++;
+                actualLineArray = actualLine.split(";");
 
+               for(int i = 0; i< actualLineArray.length ; i++){              
+                   //TEMPORAL ASIGNATION OF ALL THE DATA AS TYPE TEXT.
+                   //VALIDATE EACH TYPE OF DATA.              
+                   if (actualLineArray[i].isEmpty()){
+                       cellMap.put(toAlphabetic(i)+total_rows,new Cell());
+                   }
+                   else if (actualLineArray[i].charAt(0) == '='){
+                       cellMap.put(toAlphabetic(i)+total_rows,new Cell(new Formula(actualLineArray[i])));
+                   }
+                   else
+                   {
+                       cellMap.put(toAlphabetic(i)+total_rows,new Cell(new Text(actualLineArray[i])));
+                   }
+               }
+            }       
+            total_columns = actualLineArray.length;
+        }
+        
+        else{           
+            System.out.println("The spreadsheet does not exist");       
+        }
+    }
+    
+    public void executeResults(){
+
+        Iterator it = this.cellMap.keySet().iterator();
+        while(it.hasNext()){
+          String key = (String) it.next();
+          if (this.cellMap.get(key).getData() != null){
+            this.cellMap.get(key).getData().loadResult();
+          }
+        }
+        
+    }
+    
+    public void updateTUI(){
+        
+        //FALTA PONERLO BONITO
+    
+        Iterator it = this.cellMap.keySet().iterator();
+        while(it.hasNext()){
+          String key = (String) it.next();
+          if (this.cellMap.get(key).getData() != null){
+            System.out.println("Clave: " + key + " -> Valor: " + this.cellMap.get(key).getData().getResult());
+          }
+          else
+          {
+            System.out.println("[]");
+          }
+
+        }
+    }
 
     public Map<String, Cell> getCellMap() {
         return cellMap;

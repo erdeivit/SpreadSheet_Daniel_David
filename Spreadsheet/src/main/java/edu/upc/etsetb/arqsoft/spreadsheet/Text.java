@@ -11,13 +11,17 @@ package edu.upc.etsetb.arqsoft.spreadsheet;
  */
 public class Text extends Data{
 
+    public Text(String content, String result) {
+        super(content, result);
+    }
+
     public Text(String content) {
         super(content);
     }
 
-
-    public void loadData() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void loadResult() {
+        
+        this.result = this.content;
     }
     
 }
