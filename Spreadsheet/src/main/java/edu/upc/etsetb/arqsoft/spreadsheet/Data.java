@@ -12,6 +12,14 @@ package edu.upc.etsetb.arqsoft.spreadsheet;
 public abstract class Data {
     
     private String content;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
     
     public Data(String content){
         this.content = content;
