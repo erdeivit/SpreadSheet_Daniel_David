@@ -19,8 +19,9 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException{
-    
-        Spreadsheet spreadsheet = new Spreadsheet();   
+        
+        String filename = "spreadsheet.txt";
+        Spreadsheet spreadsheet = new Spreadsheet(filename);   
 
     }
     

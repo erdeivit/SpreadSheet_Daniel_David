@@ -28,11 +28,11 @@ public class Spreadsheet {
     private int total_rows;
     private int total_columns;
 
-    public Spreadsheet() throws FileNotFoundException, IOException {
+    public Spreadsheet(String filename) throws FileNotFoundException, IOException {
         
         cellMap = new TreeMap<>();
         total_rows = 0;
-        Scanner file = new Scanner(new File("spreadsheet.txt"));    
+        Scanner file = new Scanner(new File(filename));    
 //        String actualLine = file.nextLine();
 //        String[] actualLineArray = actualLine.split(";"); 
 
@@ -55,11 +55,8 @@ public class Spreadsheet {
                }           
            }
 
-        }
-        
+        }       
         total_columns = actualLineArray.length;
-        
-       
     }
 
 
