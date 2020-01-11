@@ -25,9 +25,24 @@ public class Cell {
     public Data getData() {
         return data;
     }
+    
+    public void checkAndSetTypeofData(String content){
+        
+        if (content.isEmpty()){
+            this.data = null;
+        }
+        else if (content.charAt(0) == '='){
+            this.data = new Formula(content);
+        }
+        else if (content.matches("-?\\d+(\\.\\d+)?"))
+        {
+            this.data = new NumericalValue(content);
+        }
+        else
+        {
+            this.data = new Text(content);
+        }
 
-    public void setData(Data data) {
-        this.data = data;
     }
     
 }
