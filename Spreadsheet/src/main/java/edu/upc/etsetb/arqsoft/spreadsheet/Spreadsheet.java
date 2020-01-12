@@ -73,8 +73,7 @@ public class Spreadsheet {
         }
 
     }
-    
-    
+       
     public void executeResults(){
 
         Iterator it = this.cellMap.keySet().iterator();
