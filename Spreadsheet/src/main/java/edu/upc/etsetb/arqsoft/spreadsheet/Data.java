@@ -5,6 +5,8 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet;
 
+import java.util.Map;
+
 /**
  *
  * @author Daniel León
@@ -40,6 +42,6 @@ public abstract class Data {
     }
 
     
-    public abstract void loadResult();
+    public abstract void loadResult(Map<String, Cell> cellMap);
     
 }

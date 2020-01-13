@@ -5,6 +5,8 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet;
 
+import java.util.Map;
+
 /**
  *
  * @author Daniel León
@@ -20,10 +22,28 @@ public class Formula extends Data {
     }
     
     
-    public void loadResult() {
+    public void loadResult(Map<String, Cell> cellMap) {
         
-        //AQUI ES DONDE HAY QUE LLAMAR AL SHUTTING YARD
-        this.result = "EJECUTAR FORMULA";
+        //ShuntingYard sy = new ShuntingYard("(3.5*4*12+3*2)-(5^4.2-1.5)");
+        //ShuntingYard sy = new ShuntingYard("(5*4+3*2)-1");
+        ShuntingYard sy = new ShuntingYard();
+        int res = sy.evaluateExpresion(cellMap,this.content);
+        
+        switch (res) {
+            case 0:
+                //ACTIVAR CUANDO QUEDE UNA POSTFIX DECENTE
+                sy.generatePostfix();
+                this.result = String.valueOf(sy.evaluatePostfix());
+                break;
+            case -1:
+                this.result = "RANGE NO FORM";
+                break;
+            case -2:
+                this.result = "REFERENCE TO TEXT";
+                break;
+
+        }
+
     }
     
     

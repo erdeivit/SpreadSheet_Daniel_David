@@ -80,7 +80,7 @@ public class Spreadsheet {
         while(it.hasNext()){
           String key = (String) it.next();
           if (this.cellMap.get(key).getData() != null){
-            this.cellMap.get(key).getData().loadResult();
+            this.cellMap.get(key).getData().loadResult(this.cellMap);
           }
         }
         

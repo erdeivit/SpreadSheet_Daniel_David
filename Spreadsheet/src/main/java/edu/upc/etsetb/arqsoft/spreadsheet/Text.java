@@ -5,6 +5,8 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet;
 
+import java.util.Map;
+
 /**
  *
  * @author Daniel León
@@ -19,9 +21,11 @@ public class Text extends Data{
         super(content);
     }
 
-    public void loadResult() {
+    public void loadResult(Map<String, Cell> cellMap) {
         
         this.result = this.content;
     }
+    
+    
     
 }

@@ -5,6 +5,8 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet;
 
+import java.util.Map;
+
 /**
  *
  * @author Daniel León
@@ -20,9 +22,9 @@ public class NumericalValue extends Data{
     }
 
     @Override
-    public void loadResult() {
+    public void loadResult(Map<String, Cell> cellMap) {
         
-        this.result = "THIS IS A NUMBER";
+        this.result = this.content;
     }
     
     
