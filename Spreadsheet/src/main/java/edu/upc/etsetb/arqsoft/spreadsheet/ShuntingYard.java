@@ -38,18 +38,18 @@ public class ShuntingYard {
     
     public void generatePostfix(){
         String c;
+        int i=0;
         //ShuntingYard sy = new ShuntingYard("(5*4+3*2)-1");
-        //cambiar por un boolean y un while, quitar k y usar unicamente i para saber "cuan largo es el numero"
-          for( int i=0 ;i<this.infix.length(); i++) {
+          while(i < this.infix.length()){
                 String num = "";
                 c = String.valueOf(this.infix.charAt(i));
-                int k = i;
+                //int k = i;
                 while(c.matches("-?\\d+(\\.\\d+)?") || c.matches("\\.")){
                    num = num + c;
-                   k++;
-                   if (k != this.infix.length()){ 
-                       c = String.valueOf(this.infix.charAt(k));
-                       i = k-1;
+                   i++;
+                   if (i != this.infix.length()){ 
+                       c = String.valueOf(this.infix.charAt(i));
+                       //i = k-1;
                    }
                    else{
                        c = "";
@@ -68,7 +68,7 @@ public class ShuntingYard {
                         //this means has less priority the new symbol
                         if (pemdas(c,top) <= 0 && !"(".equals(top)){                            
                             this.queue.add(this.stack.pop());
-                            this.stack.add(c);   
+                            this.stack.add(c);
                         }
                         else{
                             if(")".equals(c)){
@@ -88,7 +88,8 @@ public class ShuntingYard {
                                this.stack.add(c); 
                             } 
                         }
-                    }                         
+                    }
+                    i++;
                 }
           }
           
@@ -243,27 +244,33 @@ public class ShuntingYard {
                         }
                         
                         else{
+                            //TODO: QUE PASA SI ESTA VACIA
                             //If is not a range is just a regular cell reference
                             //FROM HERE PROGRAM THE "SEARCH OF THE CELL reference"
-                            
-                            if(cellMap.get(cell_reference).getData().getClass().getSimpleName().equals("NumericalValue")){                                
-                                expression = expression + cellMap.get(cell_reference).getData().getContent();
-                            }
-                            else if(cellMap.get(cell_reference).getData().getClass().getSimpleName().equals("Text")){
-                                return -2;            
+                            if(cellMap.get(cell_reference).getData() == null){
+                                //If you point to a cell that has nothing, it considers the cell like a 0
+                                expression = expression + 0;
                             }
                             else{
-                                //AQUI HAY QUE DARLE UN VISTAZO A ESTO, MIRAR QUE OCURRE
-                                if(cellMap.get(cell_reference).getData().getResult() == null)
-                                {
-                                    cellMap.get(cell_reference).getData().loadResult(cellMap);
-                                    expression = expression + cellMap.get(cell_reference).getData().getResult();
-
+                                if(cellMap.get(cell_reference).getData().getClass().getSimpleName().equals("NumericalValue")){                                
+                                    expression = expression + cellMap.get(cell_reference).getData().getContent();
+                                }
+                                else if(cellMap.get(cell_reference).getData().getClass().getSimpleName().equals("Text")){
+                                    return -2;            
                                 }
                                 else{
-                                    expression = expression + cellMap.get(cell_reference).getData().getResult();
+
+                                    if(cellMap.get(cell_reference).getData().getResult() == null)
+                                    {
+                                        cellMap.get(cell_reference).getData().loadResult(cellMap);
+                                        expression = expression + cellMap.get(cell_reference).getData().getResult();
+
+                                    }
+                                    else{
+                                        expression = expression + cellMap.get(cell_reference).getData().getResult();
+                                    }
+                                    //IN THIS CASE, THERE IS A FORMULA ON THE OTHER CELL REFERENCE, AND WE HAVE TO CHECK IF IT HAS A RESULT
                                 }
-                                //IN THIS CASE, THERE IS A FORMULA ON THE OTHER CELL REFERENCE, AND WE HAVE TO CHECK IF IT HAS A RESULT
                             }
                         }
                         

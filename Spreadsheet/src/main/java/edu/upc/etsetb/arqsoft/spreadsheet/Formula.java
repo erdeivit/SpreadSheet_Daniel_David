@@ -31,7 +31,6 @@ public class Formula extends Data {
         
         switch (res) {
             case 0:
-                //ACTIVAR CUANDO QUEDE UNA POSTFIX DECENTE
                 sy.generatePostfix();
                 this.result = String.valueOf(sy.evaluatePostfix());
                 break;

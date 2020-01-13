@@ -44,10 +44,17 @@ public class Spreadsheet {
             file = new Scanner(new File(filename));
             String actualLine;
             String[] actualLineArray = null;
+
             if (file.hasNextLine()){
+                actualLine = file.nextLine();           
+                for( int i = 0; i < actualLine.length(); i++ ){
+                    if(String.valueOf(actualLine.charAt(i)).matches(";")){
+                        total_columns++;
+                    }
+                }
+                total_columns++; //if there were 4 ; there are 5 columns
                 while(file.hasNextLine()){  
 
-                    actualLine = file.nextLine();
                     total_rows++;
                     actualLineArray = actualLine.split(";");
 
@@ -56,8 +63,16 @@ public class Spreadsheet {
                        cell.checkAndSetTypeofData(actualLineArray[i]);
                        cellMap.put(toAlphabetic(i)+total_rows,cell);
                    }
+                   //Last columns empty at back part
+                   for (int i = actualLineArray.length ; i<total_columns ; i++){
+                       Cell cell = new Cell();
+                       cell.checkAndSetTypeofData("");
+                       cellMap.put(toAlphabetic(i)+total_rows,cell);
+                   }
+                   actualLine = file.nextLine();
                 }       
-                total_columns = actualLineArray.length;
+                //total_columns = actualLineArray.length;
+                
                 return true;
             }
             else{
