@@ -20,30 +20,20 @@ public class Formula extends Data {
     public Formula(String content) {
         super(content);
     }
-    
-    
-    public void loadResult(Map<String, Cell> cellMap) {
-        
+
+    public void computeResult(Map<String, Cell> cellMap) {
+
         //ShuntingYard sy = new ShuntingYard("(3.5*4*12+3*2)-(5^4.2-1.5)");
         //ShuntingYard sy = new ShuntingYard("(5*4+3*2)-1");
         ShuntingYard sy = new ShuntingYard();
-        int res = sy.evaluateExpresion(cellMap,this.content);
-        
-        switch (res) {
-            case 0:
-                sy.generatePostfix();
-                this.result = String.valueOf(sy.evaluatePostfix());
-                break;
-            case -1:
-                this.result = "RANGE NO FORM";
-                break;
-            case -2:
-                this.result = "REFERENCE TO TEXT";
-                break;
-
+        try {
+          Calculator calculator = new Calculator(cellMap,this.content);
+          this.result = calculator.calculate();
+        } catch (ExpressionException ex) {
+            this.result = ex.getMessage();
         }
 
+
     }
-    
-    
+
 }

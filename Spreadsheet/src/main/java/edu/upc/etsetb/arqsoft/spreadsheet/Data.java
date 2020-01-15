@@ -42,6 +42,6 @@ public abstract class Data {
     }
 
     
-    public abstract void loadResult(Map<String, Cell> cellMap);
+    public abstract void computeResult(Map<String, Cell> cellMap);
     
 }

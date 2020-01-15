@@ -22,7 +22,7 @@ public class NumericalValue extends Data{
     }
 
     @Override
-    public void loadResult(Map<String, Cell> cellMap) {
+    public void computeResult(Map<String, Cell> cellMap) {
         
         this.result = String.valueOf(Double.parseDouble(this.content));
     }
