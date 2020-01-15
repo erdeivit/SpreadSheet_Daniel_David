@@ -14,27 +14,29 @@ import java.util.Stack;
  * @author Daniel León
  */
 public class Calculator {
-   private ShuntingYard sy ;
-   private String content,infix;
-   private Map<String, Cell> cellMap;
-   private Queue queue;
-   
-   public Calculator(Map<String, Cell> cellMap, String content){
-       this.sy = new ShuntingYard() ;
-       this.content = content;
-       this.cellMap = cellMap;
-   }
-   
-   public String calculate() throws ExpressionException{
-       
-       processReferences();
-       sy.setInfix(this.infix);
-       sy.generatePostfix();
-       this.queue = sy.getQueue();  
-       return String.valueOf(evaluatePostfix());
-        
-   }
-   public void processReferences()
+
+    private ShuntingYard sy;
+    private String content, infix;
+    private Map<String, Cell> cellMap;
+    private Queue queue;
+
+    public Calculator(Map<String, Cell> cellMap, String content) {
+        this.sy = new ShuntingYard();
+        this.content = content;
+        this.cellMap = cellMap;
+    }
+
+    public String calculate() throws ExpressionException {
+
+        processReferences();
+        sy.setInfix(this.infix);
+        sy.generatePostfix();
+        this.queue = sy.getQueue();
+        return String.valueOf(evaluatePostfix());
+
+    }
+
+    public void processReferences()
             throws ExpressionException {
 
         String expression = "";
@@ -70,7 +72,7 @@ public class Calculator {
                 //I find one or several letters
                 String cell_reference = "";
 
-                while (c.matches("\\D")) {
+                while (c.matches("\\D") && !c.matches("\\(")) {
                     cell_reference = cell_reference + c;
                     i++;
                     if (i != this.content.length()) {
@@ -80,7 +82,9 @@ public class Calculator {
                         c = "";
                     }
                 }
-
+                
+                expression = expression + cell_reference;
+                cell_reference = "";
                 //Now I may have a digit or a parenthesis, or a function
                 if (c.matches("\\d")) {
                     //If now I have a digit I may have just a cell reference or a cell range
@@ -133,7 +137,7 @@ public class Calculator {
                             if (this.cellMap.get(cell_reference).getData().getClass().getSimpleName().equals("NumericalValue")) {
                                 expression = expression + this.cellMap.get(cell_reference).getData().getContent();
                             } else if (this.cellMap.get(cell_reference).getData().getClass().getSimpleName().equals("Text")) {
-                                throw new ExpressionException("Found invalid text: " + cell_reference );
+                                throw new ExpressionException("Found invalid text: " + cell_reference);
                             } else {
 
                                 if (this.cellMap.get(cell_reference).getData().getResult() == null) {
@@ -149,29 +153,31 @@ public class Calculator {
                     }
 
                 } //THIS MEANS I HAVE LETTERS+(
-                else if (c.matches("(")) {
+                else if (c.matches("\\(")) {
                     //PILA Y COLA. ALGO QUE TERMINE DE VER TODO EL BLOQUE QUE HAY DENTRO DE LA PRIMERA FUNCION
                     //BUCLE HASTA QUE TERMINE DE VER TODAS LAS FUNCIONES Y TENERLAS POR SEPARADO, PARA EJECUTARLAS DESPUÉS DE GOLPE
 
-                    String function_expression = "";
                     i++;
                     c = String.valueOf(this.content.charAt(i));
-                    if (expression.substring(expression.length() - 3).equals("MIN")) {
-                        while (!c.matches(")")) {
-                            function_expression = function_expression + c;
-                            i++;
-                            if (i != this.content.length()) {
-                                c = String.valueOf(this.content.charAt(i));
-                            } else {
-                                c = "";
-                            }
+                    
+                    boolean functionexists = false;
+                    int t = 3;
+                    ImplementedFunctions imp;
+                    Function fe;
+                    while (!functionexists && t < 9  ) {
+                        for (ImplementedFunctions f : ImplementedFunctions.values()) {
+                          try {
+                              imp = ImplementedFunctions.valueOf(expression.substring(expression.length() - t));
+                                if(imp == f){ 
+                                    //UNA VEZ DETECTO LA EXPRESION HE DE ENVIARLE LO QUE VIENE
+                                    fe = FunctionFactory.getInstance(String.valueOf(imp), this.content.substring(i));
+                                    fe.calculate();
+                                    functionexists = true;
+                                }
+                            } catch (IllegalArgumentException ex) {
+                            }                       
                         }
-                    } else if (expression.substring(expression.length() - 3).equals("MAX")) {
-
-                    } else if (expression.substring(expression.length() - 4).equals("SUMA")) {
-
-                    } else if (expression.substring(expression.length() - 8).equals("PROMEDIO")) {
-
+                        t++;
                     }
 
                     //HAY QUE PLANTEARSE CON UN IF ELSE QUE PASA SI DESPUES VUELVE A HABER LETRA
@@ -187,8 +193,7 @@ public class Calculator {
         this.infix = expression;
 
     }
-   
-   
+
     public double evaluatePostfix() {
 
         Stack stack = new Stack();
@@ -233,4 +238,5 @@ public class Calculator {
 
         return Double.parseDouble(String.valueOf(stack.pop()));
     }
+
 }
