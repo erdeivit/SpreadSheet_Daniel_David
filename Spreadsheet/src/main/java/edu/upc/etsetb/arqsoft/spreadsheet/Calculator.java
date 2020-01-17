@@ -5,6 +5,7 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet;
 
+import static edu.upc.etsetb.arqsoft.spreadsheet.Spreadsheet.toAlphabetic;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
@@ -19,20 +20,29 @@ public class Calculator {
     private String content, infix;
     private Map<String, Cell> cellMap;
     private Queue queue;
+    private boolean isAFunctionRange, noCalculateRange;
 
     public Calculator(Map<String, Cell> cellMap, String content) {
         this.sy = new ShuntingYard();
         this.content = content;
         this.cellMap = cellMap;
+        this.isAFunctionRange = false;
+        this.noCalculateRange = false;
     }
 
     public String calculate() throws ExpressionException {
 
         processReferences();
-        sy.setInfix(this.infix);
-        sy.generatePostfix();
-        this.queue = sy.getQueue();
-        return String.valueOf(evaluatePostfix());
+
+        if (!this.noCalculateRange) {
+            sy.setInfix(this.infix);
+            sy.generatePostfix();
+            this.queue = sy.getQueue();
+            return String.valueOf(evaluatePostfix());
+        } else {
+            this.noCalculateRange = false;
+            return getContentCellsInaRange(this.infix);
+        }
 
     }
 
@@ -43,8 +53,9 @@ public class Calculator {
         String c;
         //content = "=A1+33*1.5+A2:A55-BB112";
         int i = 0;
-        if (String.valueOf(this.content.charAt(0)).matches("\\="))
-            i=1;
+        if (String.valueOf(this.content.charAt(0)).matches("\\=")) {
+            i = 1;
+        }
         while (i < this.content.length()) {
             c = String.valueOf(this.content.charAt(i));
 
@@ -96,39 +107,39 @@ public class Calculator {
                     }
                     //Now there are no more numbers, so
                     if (c.matches(":")) {
-//DELETE??--------------------------------------------------------------------------------------------------
-//                        //Then this will be a potential range
-//                        while (c.matches("\\D")) {
-//                            //we have a letter
-//                            cell_reference = cell_reference + c;
-//                            i++;
-//                            if (i != this.content.length()) {
-//                                c = String.valueOf(this.content.charAt(i));
-//                            } else {
-//                                c = "";
-//                            }
-//                        }
-//                        
-//
-//                        //Then we will have a digit
-//                        while (c.matches("\\d")) {
-//                            cell_reference = cell_reference + c;
-//                            i++;
-//                            if (i != this.content.length()) {
-//                                c = String.valueOf(this.content.charAt(i));
-//                            } else {
-//                                c = "";
-//                            }
-//                        }
-//                        //FROM HERE PROGRAM THE "SEARCH OF THE CELL RANGEEEEE------"
-//                        //expression = expression + cell_reference;                 
-//DELETE??--------------------------------------------------------------------------------------------------
-//THERE IS AN ERROR BECAUSE YOU SPECIFIED A RANGE OF CELLS ALONE
-                        throw new ExpressionException("Found range " + cell_reference+c + " that is not "
-                                + "an argument of a function.");
-                    } 
-                    
-                    else {
+                        //Then this will be a potential range
+                        while (c.matches("\\D")) {
+                            //we have a letter
+                            cell_reference = cell_reference + c;
+                            i++;
+                            if (i != this.content.length()) {
+                                c = String.valueOf(this.content.charAt(i));
+                            } else {
+                                c = "";
+                            }
+                        }
+
+                        //Then we will have a digit
+                        while (c.matches("\\d")) {
+                            cell_reference = cell_reference + c;
+                            i++;
+                            if (i != this.content.length()) {
+                                c = String.valueOf(this.content.charAt(i));
+                            } else {
+                                c = "";
+                            }
+                        }
+                        //FROM HERE PROGRAM THE "SEARCH OF THE CELL RANGEEEEE------"
+                        //expression = expression + cell_reference;                 
+
+                        if (!isAFunctionRange) {
+                            throw new ExpressionException("Found range " + cell_reference + c + " that is not "
+                                    + "an argument of a function.");
+                        } else {
+                            expression = expression + cell_reference;
+                            this.noCalculateRange = true;
+                        }
+                    } else {
                         //TODO: QUE PASA SI ESTA VACIA
                         //If is not a range is just a regular cell reference
                         //FROM HERE PROGRAM THE "SEARCH OF THE CELL reference"
@@ -156,6 +167,7 @@ public class Calculator {
                 else if (c.matches("\\(")) {
                     //PILA Y COLA. ALGO QUE TERMINE DE VER TODO EL BLOQUE QUE HAY DENTRO DE LA PRIMERA FUNCION
                     //BUCLE HASTA QUE TERMINE DE VER TODAS LAS FUNCIONES Y TENERLAS POR SEPARADO, PARA EJECUTARLAS DESPUÉS DE GOLPE
+                    
                     i++;
                     c = String.valueOf(this.content.charAt(i));
                     boolean functionexists = false;
@@ -165,15 +177,16 @@ public class Calculator {
                         try {
                             //IN THIS CASE CELL_REFERENCE CONTAINS THE FUNCTION, AS WE TREAT LIKE IT WAS A "AA" + PARENTESIS
                             imp = ImplementedFunctions.valueOf(cell_reference);
-                            if (imp == f) { 
+                            if (imp == f) {
                                 //KNOW WHERE IT ENDS THE FUNCTION  (NO CORRECTO PARA FUNCION DE FUNCION)
                                 int iend = this.content.indexOf(")");
-                                String a = this.content.substring(i,iend);
+                                String a = this.content.substring(i, iend);
                                 //SEND TO EVALUATE THE FUNCTION AS "REFERENCES;REFERENCES";
-                                fe = FunctionFactory.getInstance(String.valueOf(imp), this.content.substring(i,iend));
-                                expression = expression + fe.calculate(this.cellMap);                            
+                                fe = FunctionFactory.getInstance(String.valueOf(imp), this.content.substring(i, iend));
+                                expression = expression + fe.calculate(this.cellMap);
                                 //CONTINUE FROM THE END OF THE FUNCTION
-                                i = ++iend;
+                                this.content = this.content.substring(++iend);
+                                i = 0;
                                 break; //FUNCTION IS ALREADY IMPLEMENTED
                             }
                         } catch (IllegalArgumentException ex) {
@@ -184,7 +197,7 @@ public class Calculator {
         }
 
         //System.out.println(expression);
-        this.infix = expression; 
+        this.infix = expression;
 
     }
 
@@ -231,6 +244,90 @@ public class Calculator {
         }
 
         return Double.parseDouble(String.valueOf(stack.pop()));
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public boolean isIsAFunctionRange() {
+        return isAFunctionRange;
+    }
+
+    public void setIsAFunctionRange(boolean isAFunctionRange) {
+        this.isAFunctionRange = isAFunctionRange;
+    }
+
+    public String getContentCellsInaRange(String range) {
+
+        String begginingRange, endRange, column, key;
+        int num_letters = 0, i = 0, initial_row, final_row, row;
+        double initial_column = 0, final_column = 0;
+        String valuesOfRange = "";
+
+        begginingRange = range.split(":")[0];
+        endRange = range.split(":")[1];
+        String c = String.valueOf(begginingRange.charAt(num_letters));
+
+        //FIRST PART OF THE RANGE
+        while (c.matches("\\D")) {
+            num_letters++;
+            c = String.valueOf(begginingRange.charAt(num_letters));
+        }
+        initial_row = Integer.parseInt(begginingRange.substring(num_letters));
+        begginingRange = begginingRange.substring(0, num_letters);
+
+        num_letters = 0;
+
+        while (i < begginingRange.length()) { //CALCULATE GIVEN A LETTER, WHICH COLUMN IS IN NUMBER
+            initial_column = initial_column + (begginingRange.charAt(begginingRange.length() - 1 - i) - 'A' + 1) * (Math.pow(26, i++));
+        }
+
+        i = 0;
+
+        //SECOND PART OF THE RANGE
+        c = String.valueOf(endRange.charAt(num_letters));
+        while (c.matches("\\D")) {
+            num_letters++;
+            c = String.valueOf(endRange.charAt(num_letters));
+        }
+        final_row = Integer.parseInt(endRange.substring(num_letters));
+        endRange = endRange.substring(0, num_letters);
+
+        num_letters = 0;
+
+        while (i < endRange.length()) { //CALCULATE GIVEN A LETTER, WHICH COLUMN IS IN NUMBER
+            final_column = final_column + (endRange.charAt(endRange.length() - 1 - i) - 'A' + 1) * (Math.pow(26, i++));
+        }
+
+        for (i = (int) initial_row; i <= final_row; i++) {
+
+            for (int j = (int) initial_column; j <= final_column; j++) {
+
+                column = toAlphabetic(j-1);
+                key = column + String.valueOf(i);
+
+                if (this.cellMap.get(key).getData() != null) {
+                    if (this.cellMap.get(key).getData().getClass().getSimpleName().equals("NumericalValue")) {
+                        valuesOfRange = valuesOfRange + this.cellMap.get(key).getData().getContent() + ";";
+                    } else if (this.cellMap.get(key).getData().getClass().getSimpleName().equals("Formula")) {
+
+                        if (this.cellMap.get(key).getData().getResult() == null) {
+                            this.cellMap.get(key).getData().computeResult(this.cellMap);
+                            valuesOfRange = valuesOfRange + this.cellMap.get(key).getData().getResult() + ";";
+                        } else {
+                            valuesOfRange = valuesOfRange + this.cellMap.get(key).getData().getResult() + ";";
+                        }
+                    }
+                }
+            }
+        }
+
+        return valuesOfRange;
     }
 
 }

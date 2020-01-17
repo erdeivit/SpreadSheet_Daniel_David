@@ -19,18 +19,25 @@ public class Mean extends Function {
 
     @Override
     public String calculate(Map<String, Cell> cellMap) {
-        this.factors = expression.split(";");
+        this.factors = expression.split(",");
         double sum = 0.0;
-        for (int i = 0; i < this.factors.length; i++) {
-            try {
-                Calculator calculator = new Calculator(cellMap, this.factors[i]);
+        int numberOfFactors = 0;
+        try {
+            Calculator calculator = new Calculator(cellMap, this.factors[0]);
+            calculator.setIsAFunctionRange(true);
+            for (int i = 0; i < this.factors.length; i++) {
+                calculator.setContent(this.factors[i]);
                 this.factors[i] = calculator.calculate();
-                sum = sum + Double.parseDouble(this.factors[i]);
-            } catch (Exception ex) {
-                this.result = ex.getMessage();
+                this.splittedFactor = this.factors[i].split(";");
+                for (String splittedFactorItem : this.splittedFactor) {
+                    sum = sum + Double.parseDouble(splittedFactorItem);
+                    numberOfFactors++;
+                }
             }
+        } catch (Exception ex) {
+
         }
-        this.result = String.valueOf(sum / this.factors.length);
+        this.result = String.valueOf(sum / numberOfFactors);
         return this.result;
     }
 

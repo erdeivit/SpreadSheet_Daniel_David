@@ -1,0 +1,4 @@
+VALORARLO MAS TARD Interface (Abstracta) - Registro de funciones - dos metodos (Existe?,Add to the register)
+
+CLASE ABSTRACTA FUNCTION
+CLASES MAX, MIN, SUM Y PROMEDIO

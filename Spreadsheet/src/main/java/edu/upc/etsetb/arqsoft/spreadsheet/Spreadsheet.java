@@ -49,7 +49,7 @@ public class Spreadsheet {
             if (file.hasNextLine()) {
                 actualLine = file.nextLine();
                 for (int i = 0; i < actualLine.length(); i++) {
-                    if (String.valueOf(actualLine.charAt(i)).matches(",")) {
+                    if (String.valueOf(actualLine.charAt(i)).matches(";")) {
                         total_columns++;
                     }
                 }
@@ -57,7 +57,7 @@ public class Spreadsheet {
                 while (file.hasNextLine()) {
 
                     total_rows++;
-                    actualLineArray = actualLine.split(",");
+                    actualLineArray = actualLine.split(";");
 
                     for (int i = 0; i < actualLineArray.length; i++) {
                         Cell cell = new Cell();
@@ -148,11 +148,11 @@ public class Spreadsheet {
                 if (j + 1 != this.total_columns) {
                     if (this.cellMap.get(key).getData() != null) {
 
-                        line = line + this.cellMap.get(key).getData().getContent() + ",";
+                        line = line + this.cellMap.get(key).getData().getContent() + ";";
 
                     } else {
 
-                        line = line + ",";
+                        line = line + ";";
                     }
                 } else if (this.cellMap.get(key).getData() != null) {
 

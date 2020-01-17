@@ -19,65 +19,27 @@ public class Sum extends Function {
 
     @Override
     public String calculate(Map<String, Cell> cellMap) {
-        this.factors = expression.split(";");
-        //double a = Double.parseDouble(this.factors[0]);
+        this.factors = expression.split(",");
         double sum = 0.0;
-        String[] range = null;
-        String c;
-        for (int i = 0; i < this.factors.length; i++) {
-            try {
-                //RANGE FOUND
-                if (this.factors[i].indexOf(":") > 0) {
-                range = this.factors[i].split(":"); 
-                for (String r :range)
-                {
-                    while (i < r.length())
-                    {
-                       c = String.valueOf(r.charAt(i));
-                    }
+
+        try {
+            Calculator calculator = new Calculator(cellMap, this.factors[0]);
+            calculator.setIsAFunctionRange(true);
+            for (int i = 0; i < this.factors.length; i++) {
+                calculator.setContent(this.factors[i]);
+                this.factors[i] = calculator.calculate();  
+                //We split the factor (may come from a range)
+                this.splittedFactor = this.factors[i].split(";");
+                for (String splittedFactorItem : this.splittedFactor) {
+                    sum = sum + Double.parseDouble(splittedFactorItem);
                 }
-//                    //SAME FIRST LETTER
-//                    if (range[0].charAt(0) == range[1].charAt(1))
-//                    {
-//                        //SECOND CHARACTER STILL A LETTER, THEN WE HAVE AA REFERENCE
-//                        if (String.valueOf(range[0].charAt(1)).matches("\\D"))
-//                        {
-//                            
-//                        }
-//                        
-//                    }
-                    
-                    while (i < range[i].length()) {  
-//                        c = String.valueOf(range[i].charAt(i));
-//                        //c is a NUMBER
-//                        if (c.matches("-?\\d+(\\.\\d+)?")) {
-//                            String num = "";
-//                            while (c.matches("-?\\d+(\\.\\d+)?") || c.matches("\\.")) {
-//                                num = num + c;
-//                                i++;
-//                            }
-//                            this.factors[i] = num;
-//                        }
-//                        //C IS A CHARACTER
-//                        else if (c.matches("\\D"))
-//                        {
-//                        
-//                        }
-                        Calculator calculator = new Calculator(cellMap, this.factors[i]);
-                        this.factors[i] = calculator.calculate();
-                        sum = sum + Double.parseDouble(this.factors[i]);
-                        }
-                    }else { //RANGE NOT FOUND
-                    Calculator calculator = new Calculator(cellMap, this.factors[i]);
-                    this.factors[i] = calculator.calculate();
-                    sum = sum + Double.parseDouble(this.factors[i]);
-                }
-                }catch (Exception ex) {
-                this.result = ex.getMessage();
             }
-            }
-            this.result = String.valueOf(sum);
-            return this.result;
+        } catch (Exception ex) {
+            
         }
 
+        this.result = String.valueOf(sum);
+        return this.result;
     }
+
+}

@@ -14,12 +14,12 @@ import java.util.Map;
 public abstract class Function {
     
     protected String expression;
-    protected String[] factors;
+    protected String[] factors = null;
     protected String result;
+    protected String[] splittedFactor = null;
 
     public Function(String expression) {
         this.expression = expression;
-        this.factors = null;
     }
     
     

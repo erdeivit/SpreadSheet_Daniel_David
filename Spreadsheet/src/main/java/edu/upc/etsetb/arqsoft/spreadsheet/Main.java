@@ -47,9 +47,9 @@ public class Main {
                         + "save - Saves the file \n"
                         + "exit - Finishes the execution of the program");
 
-                //command = scanner.nextLine();
-                //end = processCommand(command);
-                end = true;
+                command = scanner.nextLine();
+                end = processCommand(command);
+                //end = true;
 
             }
      
@@ -64,6 +64,7 @@ public class Main {
                 //hacer un bucle para crearlas
                 return false;
             case "edit":
+            case "EDIT":
                 System.out.println("\n Introduce the cell reference followed by the new content e.g: A1 TOTAL=5 \n");
                 command = scanner.nextLine();
                 String[] parts = command.split(" ",2);
@@ -84,11 +85,13 @@ public class Main {
                 }
 
             case "save":
+            case "SAVE":
                 String filename = "spreadsheet2.txt";
                 spreadsheet.saveFile(filename);
                 return false;
             case "exit":
-               return true;
+            case "EXIT":
+             return true;
             default:
                 System.out.println("Unknown command: " + command);
                 return false;
