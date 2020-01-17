@@ -109,6 +109,7 @@ public class ShuntingYard {
                 break;
             case "^":
                 op1_preference = 3;
+                break;
             case "(":
             case ")":
                 op1_preference = 4;
@@ -125,6 +126,7 @@ public class ShuntingYard {
                 break;
             case "^":
                 op2_preference = 3;
+                break;
             case "(":
             case ")":
                 op2_preference = 4;

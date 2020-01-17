@@ -6,9 +6,11 @@
 package edu.upc.etsetb.arqsoft.spreadsheet;
 
 import static edu.upc.etsetb.arqsoft.spreadsheet.Spreadsheet.toAlphabetic;
+import java.text.DecimalFormat;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -167,9 +169,36 @@ public class Calculator {
                 else if (c.matches("\\(")) {
                     //PILA Y COLA. ALGO QUE TERMINE DE VER TODO EL BLOQUE QUE HAY DENTRO DE LA PRIMERA FUNCION
                     //BUCLE HASTA QUE TERMINE DE VER TODAS LAS FUNCIONES Y TENERLAS POR SEPARADO, PARA EJECUTARLAS DESPUÉS DE GOLPE
-                    
+
                     i++;
                     c = String.valueOf(this.content.charAt(i));
+                    //NUEVO
+
+                    String restOfFunction = this.content.substring(i);
+                    int count = StringUtils.countMatches(restOfFunction, "(") + 1;
+                    String functionContent = "";
+
+                    int t = 0;
+                    while (t < count) {
+                        while (!c.matches("\\)")) {
+                            if (i != this.content.length()) {
+                                functionContent = functionContent + c;
+                                i++;
+                                c = String.valueOf(this.content.charAt(i));
+                            } else {
+                                c = "";
+                            }
+                        }
+                        t++;
+                        if (t != count) {
+                            functionContent = functionContent + c;
+                            i++;
+                            c = String.valueOf(this.content.charAt(i));
+                        }
+
+                    }
+
+                    //NUEVO
                     boolean functionexists = false;
                     ImplementedFunctions imp;
                     Function fe;
@@ -179,13 +208,12 @@ public class Calculator {
                             imp = ImplementedFunctions.valueOf(cell_reference);
                             if (imp == f) {
                                 //KNOW WHERE IT ENDS THE FUNCTION  (NO CORRECTO PARA FUNCION DE FUNCION)
-                                int iend = this.content.indexOf(")");
-                                String a = this.content.substring(i, iend);
+
                                 //SEND TO EVALUATE THE FUNCTION AS "REFERENCES;REFERENCES";
-                                fe = FunctionFactory.getInstance(String.valueOf(imp), this.content.substring(i, iend));
+                                fe = FunctionFactory.getInstance(String.valueOf(imp), functionContent);
                                 expression = expression + fe.calculate(this.cellMap);
                                 //CONTINUE FROM THE END OF THE FUNCTION
-                                this.content = this.content.substring(++iend);
+                                this.content = this.content.substring(++i);
                                 i = 0;
                                 break; //FUNCTION IS ALREADY IMPLEMENTED
                             }
@@ -201,7 +229,7 @@ public class Calculator {
 
     }
 
-    public double evaluatePostfix() {
+    public double evaluatePostfix() throws ExpressionException{
 
         Stack stack = new Stack();
         int queue_size = this.queue.size();
@@ -231,7 +259,12 @@ public class Calculator {
                         result = term_1 * term_2;
                         break;
                     case "/":
-                        result = term_1 / term_2;
+                        if (term_2 != 0){
+                            result = term_1 / term_2;
+                        }
+                        else{
+                            throw new ExpressionException("Found a division by zero!");
+                        }
                         break;
                     case "^":
                         result = Math.pow(term_1, term_2);
@@ -242,7 +275,6 @@ public class Calculator {
 
             }
         }
-
         return Double.parseDouble(String.valueOf(stack.pop()));
     }
 
@@ -308,7 +340,7 @@ public class Calculator {
 
             for (int j = (int) initial_column; j <= final_column; j++) {
 
-                column = toAlphabetic(j-1);
+                column = toAlphabetic(j - 1);
                 key = column + String.valueOf(i);
 
                 if (this.cellMap.get(key).getData() != null) {

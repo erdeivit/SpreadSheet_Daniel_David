@@ -1,2 +1,0 @@
-- !!!!!!CONTROLAR java.lang.NullPointerException SI SUM(CELDA FUERA RANGO)
-- iend (calculator.java) no correcto si se considera más de una funcion
