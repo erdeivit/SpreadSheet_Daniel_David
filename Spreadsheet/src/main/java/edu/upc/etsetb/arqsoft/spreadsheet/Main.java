@@ -47,8 +47,9 @@ public class Main {
                         + "save - Saves the file \n"
                         + "exit - Finishes the execution of the program");
 
-                command = scanner.nextLine();
-                end = processCommand(command);
+                //command = scanner.nextLine();
+                //end = processCommand(command);
+                end = true;
 
             }
      

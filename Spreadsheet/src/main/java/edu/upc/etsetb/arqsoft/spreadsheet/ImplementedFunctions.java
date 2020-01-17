@@ -10,5 +10,5 @@ package edu.upc.etsetb.arqsoft.spreadsheet;
  * @author Daniel León
  */
 public enum ImplementedFunctions {
-    MIN,MAX,SUMA,PROMEDIO
+    MIN,MAX,SUM,MEAN
 }

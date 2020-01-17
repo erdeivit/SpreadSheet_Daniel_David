@@ -5,6 +5,8 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet;
 
+import java.util.Map;
+
 /**
  *
  * @author Daniel León
@@ -12,12 +14,15 @@ package edu.upc.etsetb.arqsoft.spreadsheet;
 public abstract class Function {
     
     protected String expression;
+    protected String[] factors;
+    protected String result;
 
     public Function(String expression) {
         this.expression = expression;
+        this.factors = null;
     }
     
     
-    public abstract void calculate(); 
+    public abstract String calculate(Map<String, Cell> cellMap); 
     
 }

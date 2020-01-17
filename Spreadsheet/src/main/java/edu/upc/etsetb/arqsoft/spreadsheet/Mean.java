@@ -9,32 +9,29 @@ import java.util.Map;
 
 /**
  *
- * @author Daniel León
+ * @author David Hernandez
  */
-public class Max extends Function {
+public class Mean extends Function {
 
-    public Max(String expression) {
+    public Mean(String expression) {
         super(expression);
     }
 
     @Override
     public String calculate(Map<String, Cell> cellMap) {
         this.factors = expression.split(";");
-        for (int i = 0; i < factors.length; i++) {
+        double sum = 0.0;
+        for (int i = 0; i < this.factors.length; i++) {
             try {
                 Calculator calculator = new Calculator(cellMap, this.factors[i]);
                 this.factors[i] = calculator.calculate();
-                if (i == 0) //TODO ARREGLAR ESTO
-                {
-                  this.result = this.factors[i];
-                }
-                if (Double.parseDouble(this.result) < Double.parseDouble(this.factors[i])) {
-                    this.result = this.factors[i];
-                }
+                sum = sum + Double.parseDouble(this.factors[i]);
             } catch (Exception ex) {
                 this.result = ex.getMessage();
             }
         }
+        this.result = String.valueOf(sum / this.factors.length);
         return this.result;
     }
+
 }

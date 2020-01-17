@@ -1,0 +1,4 @@
+- QUITAR CONSTRUCTOR CELLMAP EN CALCULADORA
+- ARREGLAR IF (i=0) en calculate() dentro de Max.java
+- CONTROLAR java.lang.NullPointerException SI SUM(CELDA FUERA RANGO)
+- iend (calculator.java) no correcto si se considera más de una funcion

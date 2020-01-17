@@ -9,14 +9,14 @@ import java.util.Map;
 
 /**
  *
- * @author Daniel León
+ * @author David Hernandez
  */
-public class Max extends Function {
+public class Min extends Function{
 
-    public Max(String expression) {
+    public Min(String expression) {
         super(expression);
     }
-
+    
     @Override
     public String calculate(Map<String, Cell> cellMap) {
         this.factors = expression.split(";");
@@ -28,7 +28,7 @@ public class Max extends Function {
                 {
                   this.result = this.factors[i];
                 }
-                if (Double.parseDouble(this.result) < Double.parseDouble(this.factors[i])) {
+                if (Double.parseDouble(this.result) > Double.parseDouble(this.factors[i])) {
                     this.result = this.factors[i];
                 }
             } catch (Exception ex) {
@@ -37,4 +37,7 @@ public class Max extends Function {
         }
         return this.result;
     }
+    
+    
+    
 }
