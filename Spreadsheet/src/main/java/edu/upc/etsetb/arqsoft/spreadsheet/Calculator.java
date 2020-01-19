@@ -145,12 +145,11 @@ public class Calculator {
                         //TODO: QUE PASA SI ESTA VACIA
                         //If is not a range is just a regular cell reference
                         //FROM HERE PROGRAM THE "SEARCH OF THE CELL reference"
-                        if (this.cellMap.get(cell_reference) == null){
+                        if (this.cellMap.get(cell_reference) == null) {
                             //This line detects if the given reference does not exist
                             expression = expression + 0;
-                            //throw new ExpressionException("One or more specified cels do not exist!");
-                        }
-                        else if (this.cellMap.get(cell_reference).getData() == null) {
+                            throw new ExpressionException("One or more specified cels do not exist!");
+                        } else if (this.cellMap.get(cell_reference).getData() == null) {
                             //If you point to a cell that has nothing, it considers the cell like a 0
                             expression = expression + 0;
                         } else {
@@ -161,7 +160,13 @@ public class Calculator {
                             } else {
                                 if (this.cellMap.get(cell_reference).getData().getResult() == null) {
                                     this.cellMap.get(cell_reference).getData().computeResult(this.cellMap);
-                                    expression = expression + this.cellMap.get(cell_reference).getData().getResult();
+                                    try {
+                                        Double.parseDouble(this.cellMap.get(cell_reference).getData().getResult());
+                                        expression = expression + this.cellMap.get(cell_reference).getData().getResult();
+                                    } catch (NumberFormatException ex) {
+                                        throw new ExpressionException("A call to a reference that does not exist was found");
+                                    }
+
                                 } else {
                                     expression = expression + this.cellMap.get(cell_reference).getData().getResult();
                                 }
@@ -172,8 +177,6 @@ public class Calculator {
 
                 } //THIS MEANS I HAVE LETTERS + ( WHICH CAN ONLY MEAN THAT IS A FUNCTION
                 else if (c.matches("\\(")) {
-                    //PILA Y COLA. ALGO QUE TERMINE DE VER TODO EL BLOQUE QUE HAY DENTRO DE LA PRIMERA FUNCION
-                    //BUCLE HASTA QUE TERMINE DE VER TODAS LAS FUNCIONES Y TENERLAS POR SEPARADO, PARA EJECUTARLAS DESPUÉS DE GOLPE
 
                     i++;
                     c = String.valueOf(this.content.charAt(i));
@@ -216,7 +219,7 @@ public class Calculator {
 
                                 //SEND TO EVALUATE THE FUNCTION AS "REFERENCES;REFERENCES";
                                 fe = FunctionFactory.getInstance(String.valueOf(imp), functionContent);
-                                expression = expression + fe.calculate(this.cellMap);
+                                expression = expression + fe.calculate(this.cellMap);  
                                 //CONTINUE FROM THE END OF THE FUNCTION
                                 this.content = this.content.substring(++i);
                                 i = 0;
@@ -234,7 +237,7 @@ public class Calculator {
 
     }
 
-    public double evaluatePostfix() throws ExpressionException{
+    public double evaluatePostfix() throws ExpressionException {
 
         Stack stack = new Stack();
         int queue_size = this.queue.size();
@@ -264,10 +267,9 @@ public class Calculator {
                         result = term_1 * term_2;
                         break;
                     case "/":
-                        if (term_2 != 0){
+                        if (term_2 != 0) {
                             result = term_1 / term_2;
-                        }
-                        else{
+                        } else {
                             throw new ExpressionException("Found a division by zero!");
                         }
                         break;
@@ -347,20 +349,24 @@ public class Calculator {
 
                 column = toAlphabetic(j - 1);
                 key = column + String.valueOf(i);
-                
-                
-                if (this.cellMap.get(key) == null){
+
+                if (this.cellMap.get(key) == null) {
                     valuesOfRange = valuesOfRange + 0 + ";";
-                    //throw new ExpressionException("A cell specified in the range does not exist!");
-                }
-                else if (this.cellMap.get(key).getData() != null) {
+                    throw new ExpressionException("A call to a reference that does not exist was found");
+                } else if (this.cellMap.get(key).getData() != null) {
                     if (this.cellMap.get(key).getData().getClass().getSimpleName().equals("NumericalValue")) {
                         valuesOfRange = valuesOfRange + this.cellMap.get(key).getData().getContent() + ";";
                     } else if (this.cellMap.get(key).getData().getClass().getSimpleName().equals("Formula")) {
 
                         if (this.cellMap.get(key).getData().getResult() == null) {
+
                             this.cellMap.get(key).getData().computeResult(this.cellMap);
-                            valuesOfRange = valuesOfRange + this.cellMap.get(key).getData().getResult() + ";";
+                            try {
+                                Double.parseDouble(this.cellMap.get(key).getData().getResult());
+                                valuesOfRange = valuesOfRange + this.cellMap.get(key).getData().getResult() + ";";
+                            } catch (NumberFormatException ex) {
+                                throw new ExpressionException("A call to a reference that does not exist was found");
+                            }
                         } else {
                             valuesOfRange = valuesOfRange + this.cellMap.get(key).getData().getResult() + ";";
                         }

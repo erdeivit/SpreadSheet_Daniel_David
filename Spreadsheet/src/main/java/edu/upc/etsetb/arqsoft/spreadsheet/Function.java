@@ -23,6 +23,6 @@ public abstract class Function {
     }
     
     
-    public abstract String calculate(Map<String, Cell> cellMap); 
+    public abstract String calculate(Map<String, Cell> cellMap) throws ExpressionException; 
     
 }
