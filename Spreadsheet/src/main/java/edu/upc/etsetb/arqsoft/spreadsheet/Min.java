@@ -39,7 +39,7 @@ public class Min extends Function {
 
             }
         } catch (Exception ex) {
-            //this.result = ex.getMessage();
+            this.result = ex.getMessage();
         }
         return this.result;
     }

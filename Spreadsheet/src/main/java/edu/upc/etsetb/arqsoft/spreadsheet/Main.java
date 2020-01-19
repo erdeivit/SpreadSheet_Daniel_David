@@ -30,7 +30,7 @@ public class Main {
         String tClient = scanner.nextLine();
         if (!tClient.equalsIgnoreCase("text")) {
             System.out.println("Graphic user interface not available....leaving session");
-            System.exit(-1);
+            return;
         }
         spreadsheet = new Spreadsheet();
         //Initializate the spreadsheet (load the file)
@@ -56,9 +56,8 @@ public class Main {
                 break;
             default:
 
-                System.out.println("Unknown decision: " + decision + " load/created operation aborted!");
-
-                break;
+                System.out.println("Unknown decision: " + decision + " load/created operation aborted!....leaving session");
+                return;
 
         }
 

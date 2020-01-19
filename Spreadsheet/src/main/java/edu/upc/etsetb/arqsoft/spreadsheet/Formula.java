@@ -21,7 +21,7 @@ public class Formula extends Data {
         super(content);
     }
 
-    public void computeResult(Map<String, Cell> cellMap) {
+    public void computeResult(Map<String, Cell> cellMap){
 
         ShuntingYard sy = new ShuntingYard();
         try {

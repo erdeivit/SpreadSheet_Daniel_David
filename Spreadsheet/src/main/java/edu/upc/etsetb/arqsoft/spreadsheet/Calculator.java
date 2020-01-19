@@ -145,7 +145,12 @@ public class Calculator {
                         //TODO: QUE PASA SI ESTA VACIA
                         //If is not a range is just a regular cell reference
                         //FROM HERE PROGRAM THE "SEARCH OF THE CELL reference"
-                        if (this.cellMap.get(cell_reference).getData() == null) {
+                        if (this.cellMap.get(cell_reference) == null){
+                            //This line detects if the given reference does not exist
+                            expression = expression + 0;
+                            //throw new ExpressionException("One or more specified cels do not exist!");
+                        }
+                        else if (this.cellMap.get(cell_reference).getData() == null) {
                             //If you point to a cell that has nothing, it considers the cell like a 0
                             expression = expression + 0;
                         } else {
@@ -294,7 +299,7 @@ public class Calculator {
         this.isAFunctionRange = isAFunctionRange;
     }
 
-    public String getContentCellsInaRange(String range) {
+    public String getContentCellsInaRange(String range) throws ExpressionException {
 
         String begginingRange, endRange, column, key;
         int num_letters = 0, i = 0, initial_row, final_row, row;
@@ -342,8 +347,13 @@ public class Calculator {
 
                 column = toAlphabetic(j - 1);
                 key = column + String.valueOf(i);
-
-                if (this.cellMap.get(key).getData() != null) {
+                
+                
+                if (this.cellMap.get(key) == null){
+                    valuesOfRange = valuesOfRange + 0 + ";";
+                    //throw new ExpressionException("A cell specified in the range does not exist!");
+                }
+                else if (this.cellMap.get(key).getData() != null) {
                     if (this.cellMap.get(key).getData().getClass().getSimpleName().equals("NumericalValue")) {
                         valuesOfRange = valuesOfRange + this.cellMap.get(key).getData().getContent() + ";";
                     } else if (this.cellMap.get(key).getData().getClass().getSimpleName().equals("Formula")) {
