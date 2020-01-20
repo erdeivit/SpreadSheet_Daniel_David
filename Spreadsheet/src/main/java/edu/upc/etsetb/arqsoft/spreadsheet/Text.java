@@ -22,7 +22,6 @@ public class Text extends Data{
     }
 
     public void computeResult(Map<String, Cell> cellMap){
-        
         this.result = this.content;
     }
     
