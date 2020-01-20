@@ -37,7 +37,6 @@ public class Sum extends Function {
                         this.factors[j] = this.factors[j] + "," + this.factors[j + k];
                         this.factors[j + k] = "";
                     }
-                    
                     k = 1;
                 }
             }

@@ -19,7 +19,6 @@ public class Mean extends Function {
 
     @Override
     public String calculate(Map<String, Cell> cellMap) throws ExpressionException {
-        ImplementedFunctions imp;
         this.factors = expression.split(",");
         int k = 1;
         for (int j = 0; j < this.factors.length; j++) {
@@ -37,7 +36,6 @@ public class Mean extends Function {
                         this.factors[j] = this.factors[j] + "," + this.factors[j + k];
                         this.factors[j + k] = "";
                     }
-                    
                     k = 1;
                 }
             }
@@ -57,9 +55,7 @@ public class Mean extends Function {
                 }
             }
         }
-
         this.result = String.valueOf(sum / numberOfFactors);
         return this.result;
     }
-
 }

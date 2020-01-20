@@ -21,6 +21,7 @@ public class Text extends Data{
         super(content);
     }
 
+    @Override
     public void computeResult(Map<String, Cell> cellMap){
         this.result = this.content;
     }

@@ -12,7 +12,6 @@ import java.util.Map;
  * @author Daniel León
  */
 public abstract class Function {
-    
     protected String expression;
     protected String[] factors = null;
     protected String result;
@@ -21,8 +20,6 @@ public abstract class Function {
     public Function(String expression) {
         this.expression = expression;
     }
-    
-    
     public abstract String calculate(Map<String, Cell> cellMap) throws ExpressionException; 
     
 }

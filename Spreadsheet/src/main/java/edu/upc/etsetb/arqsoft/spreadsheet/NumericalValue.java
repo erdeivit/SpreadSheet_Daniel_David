@@ -11,7 +11,7 @@ import java.util.Map;
  *
  * @author Daniel León
  */
-public class NumericalValue extends Data{
+public class NumericalValue extends Data {
 
     public NumericalValue(String content, String result) {
         super(content, result);
@@ -23,10 +23,7 @@ public class NumericalValue extends Data{
 
     @Override
     public void computeResult(Map<String, Cell> cellMap) {
-        
+
         this.result = String.valueOf(Double.parseDouble(this.content));
     }
-    
-    
-    
 }

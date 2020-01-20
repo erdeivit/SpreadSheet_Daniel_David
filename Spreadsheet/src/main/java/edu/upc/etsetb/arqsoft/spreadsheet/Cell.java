@@ -10,39 +10,29 @@ package edu.upc.etsetb.arqsoft.spreadsheet;
  * @author Daniel León
  */
 public class Cell {
-    
+
     private Data data;
-    
-    public Cell(){
-        
+
+    public Cell() {
     }
-    
-    public Cell(Data data){
-        
+
+    public Cell(Data data) {
         this.data = data;
     }
 
     public Data getData() {
         return data;
     }
-    
-    public void checkAndSetTypeofData(String content){
-        
-        if (content.isEmpty()){
+
+    public void checkAndSetTypeofData(String content) {
+        if (content.isEmpty()) {
             this.data = null;
-        }
-        else if (content.charAt(0) == '='){
+        } else if (content.charAt(0) == '=') {
             this.data = new Formula(content);
-        }
-        else if (content.matches("-?\\d+(\\.\\d+)?"))
-        {
+        } else if (content.matches("-?\\d+(\\.\\d+)?")) {
             this.data = new NumericalValue(content);
-        }
-        else
-        {
+        } else {
             this.data = new Text(content);
         }
-
     }
-    
 }

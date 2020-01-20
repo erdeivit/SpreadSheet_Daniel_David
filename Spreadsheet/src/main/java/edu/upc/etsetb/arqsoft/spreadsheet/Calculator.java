@@ -15,9 +15,10 @@ import java.util.Stack;
  * @author Daniel León
  */
 public class Calculator {
-    private ShuntingYard sy;
+
+    private final ShuntingYard sy;
     private String content, infix;
-    private Map<String, Cell> cellMap;
+    private final Map<String, Cell> cellMap;
     private Queue queue;
     private boolean isAFunctionRange, noCalculateRange;
 
@@ -131,7 +132,7 @@ public class Calculator {
                         if (this.cellMap.get(cell_reference) == null) {
                             //This line detects if the given reference does not exist
                             expression = expression + 0;
-                            throw new ExpressionException("One or more specified cels do not exist!");
+                            throw new ExpressionException("One or more specified cells do not exist!");
                         } else if (this.cellMap.get(cell_reference).getData() == null) {
                             //If you point to a cell that has nothing, it considers the cell like a 0
                             expression = expression + 0;
@@ -153,7 +154,8 @@ public class Calculator {
                                         }
                                     } else {
                                         expression = expression + this.cellMap.get(cell_reference).getData().getResult();
-                                    }   break;
+                                    }
+                                    break;
                             }
                         }
                     }
@@ -216,7 +218,12 @@ public class Calculator {
                 this.queue.poll();
             } else {
                 double term_2 = Double.parseDouble(String.valueOf(stack.pop()));
-                double term_1 = Double.parseDouble(String.valueOf(stack.pop()));
+                double term_1;
+                if (!stack.isEmpty()) {
+                    term_1 = Double.parseDouble(String.valueOf(stack.pop()));
+                } else {
+                    term_1 = 0;
+                }
                 String operator = (String) this.queue.poll();
                 double result = 0.0;
                 switch (operator) {

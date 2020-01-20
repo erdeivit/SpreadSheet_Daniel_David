@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.upc.etsetb.arqsoft.spreadsheet;
 
 import java.util.Map;
@@ -19,7 +14,6 @@ public class Max extends Function {
 
     @Override
     public String calculate(Map<String, Cell> cellMap) throws ExpressionException {
-        ImplementedFunctions imp;
         this.factors = expression.split(",");
         int k = 1;
         for (int j = 0; j < this.factors.length; j++) {
@@ -32,12 +26,10 @@ public class Max extends Function {
                         k++;
                     }
                     //IF THE FUNCTIONS JUST HAVE ONE PARAMETER DON'T DO ANYTHING
-                    if (!this.factors[j].contains("(") || !this.factors[j].contains(")"))
-                    {
+                    if (!this.factors[j].contains("(") || !this.factors[j].contains(")")) {
                         this.factors[j] = this.factors[j] + "," + this.factors[j + k];
                         this.factors[j + k] = "";
                     }
-                    
                     k = 1;
                 }
             }

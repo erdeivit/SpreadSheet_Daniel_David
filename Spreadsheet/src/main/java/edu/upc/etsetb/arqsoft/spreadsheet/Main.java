@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.upc.etsetb.arqsoft.spreadsheet;
 
 import static edu.upc.etsetb.arqsoft.spreadsheet.Spreadsheet.toAlphabetic;
 import java.io.*;
-import java.net.URL;
 import java.util.Scanner;
 
 /**
@@ -15,6 +9,7 @@ import java.util.Scanner;
  * @author Daniel León
  */
 public class Main {
+
     public static String filename;
     public static Spreadsheet spreadsheet;
 
@@ -69,7 +64,7 @@ public class Main {
             }
         }
     }
-    
+
     public static boolean processCommand(String command) throws FileNotFoundException, IOException {
         Scanner scanner = new Scanner(System.in);
         switch (command) {

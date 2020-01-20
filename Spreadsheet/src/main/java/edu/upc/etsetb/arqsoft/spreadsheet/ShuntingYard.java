@@ -7,8 +7,6 @@ package edu.upc.etsetb.arqsoft.spreadsheet;
 
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -24,38 +22,31 @@ public class ShuntingYard {
 
     public ShuntingYard(String infix) {
         this.infix = infix;
-        //this.stack = new Stack();
         this.stack = new Stack();
         this.queue = new LinkedList();
     }
 
     public ShuntingYard() {
         this.infix = "";
-        //this.stack = new Stack();
         this.stack = new Stack();
         this.queue = new LinkedList();
-
     }
 
     public void generatePostfix() {
         String c;
         int i = 0;
-        //ShuntingYard sy = new ShuntingYard("(5*4+3*2)-1");
         while (i < this.infix.length()) {
             String num = "";
             c = String.valueOf(this.infix.charAt(i));
-            //int k = i;
             while (c.matches("-?\\d+(\\.\\d+)?") || c.matches("\\.")) {
                 num = num + c;
                 i++;
                 if (i != this.infix.length()) {
                     c = String.valueOf(this.infix.charAt(i));
-                    //i = k-1;
                 } else {
                     c = "";
                 }
             }
-
             if (num.matches("-?\\d+(\\.\\d+)?")) {
                 this.queue.add(num);
             } else {
@@ -77,9 +68,7 @@ public class ShuntingYard {
                                         this.stack.pop();
                                     }
                                 }
-
                             }
-
                         } else {
                             this.stack.add(c);
                         }
@@ -88,11 +77,9 @@ public class ShuntingYard {
                 i++;
             }
         }
-
         if (!this.stack.isEmpty()) {
             this.queue.add(this.stack.pop());
         }
-
     }
 
     public int pemdas(String op1, String op2) {
@@ -132,9 +119,7 @@ public class ShuntingYard {
                 op2_preference = 4;
                 break;
         }
-
         return op1_preference - op2_preference;
-
     }
 
     public String getInfix() {
@@ -160,5 +145,4 @@ public class ShuntingYard {
     public void setQueue(Queue queue) {
         this.queue = queue;
     }
-
 }
