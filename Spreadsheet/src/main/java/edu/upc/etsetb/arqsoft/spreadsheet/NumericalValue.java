@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  *
- * @author Daniel León
+ * @author Daniel León and David Hernández
  */
 public class NumericalValue extends Data {
 
@@ -21,6 +21,10 @@ public class NumericalValue extends Data {
         super(content);
     }
 
+    /*
+    In that case as the content of the cell is just a Numerical Value, the
+    content is copied in the result variable of Data.
+    */
     @Override
     public void computeResult(Map<String, Cell> cellMap) {
 

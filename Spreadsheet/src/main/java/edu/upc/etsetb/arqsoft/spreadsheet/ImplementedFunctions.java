@@ -7,7 +7,7 @@ package edu.upc.etsetb.arqsoft.spreadsheet;
 
 /**
  *
- * @author Daniel León
+ * @author Daniel León and David Hernández
  */
 public enum ImplementedFunctions {
     MIN,MAX,SUM,MEAN

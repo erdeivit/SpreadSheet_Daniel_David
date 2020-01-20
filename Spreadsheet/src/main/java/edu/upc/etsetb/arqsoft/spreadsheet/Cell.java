@@ -7,7 +7,7 @@ package edu.upc.etsetb.arqsoft.spreadsheet;
 
 /**
  *
- * @author Daniel León
+ * @author Daniel León and David Hernández
  */
 public class Cell {
 
@@ -24,6 +24,9 @@ public class Cell {
         return data;
     }
 
+    /*
+    This function creates the data Object of the cell based on its type of data
+    */
     public void checkAndSetTypeofData(String content) {
         if (content.isEmpty()) {
             this.data = null;

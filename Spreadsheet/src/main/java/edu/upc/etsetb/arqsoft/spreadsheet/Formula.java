@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  *
- * @author Daniel León
+ * @author Daniel León and David Hernández
  */
 public class Formula extends Data {
 
@@ -21,6 +21,11 @@ public class Formula extends Data {
         super(content);
     }
 
+    /*
+    The computeResult() function is the one that triggers all the necessary
+    mechanisms to calculate the final result of the cell. Therefore, stores the
+    final result of the content of the cell in the result variable of the Data.
+    */
     @Override
     public void computeResult(Map<String, Cell> cellMap){
         ShuntingYard sy = new ShuntingYard();

@@ -12,7 +12,7 @@ import java.util.Stack;
 
 /**
  *
- * @author Daniel León
+ * @author Daniel León and David Hernández
  */
 public class ShuntingYard {
 
@@ -32,6 +32,13 @@ public class ShuntingYard {
         this.queue = new LinkedList();
     }
 
+    /*
+    Given an infix string, this function is in charge of generating a Postfix
+    expression to be calculated. In that point, the infix expression just
+    contains numbers and operators. This function will be called not only
+    to calculate final postix expressions but will be used as a method to get
+    the postfix expressions in intermediate steps of a big formula.
+    */
     public void generatePostfix() {
         String c;
         int i = 0;
@@ -130,6 +137,9 @@ public class ShuntingYard {
         }
     }
 
+    /*
+    Method implemented to assign a priority to the operands
+    */
     public int pemdas(String op1, String op2) {
         int op1_preference = 0;
         int op2_preference = 0;

@@ -7,8 +7,14 @@ package edu.upc.etsetb.arqsoft.spreadsheet;
 
 /**
  *
- * @author Daniel León
+ * @author Daniel León and David Hernández
  */
+
+/*
+This factory is used to create a function of any of the four available types,
+depending on the instance received. e.g if it receives a MIN, means that a
+function of type Min has to be created.
+*/
 public abstract class FunctionFactory {
     
     public static Function getInstance(String functionType,String expression){

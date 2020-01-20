@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  *
- * @author Daniel León
+ * @author Daniel León and David Hernández
  */
 public class Text extends Data{
 

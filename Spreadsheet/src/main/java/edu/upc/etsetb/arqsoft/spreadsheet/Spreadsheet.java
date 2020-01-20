@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Daniel León
+ * @author Daniel León and David Hernández
  */
 public class Spreadsheet {
 
@@ -66,16 +66,20 @@ public class Spreadsheet {
                 return true;
             } else {
                 System.out.println("The " + filename + " is empty!\n"
-                        + "\nProgram will close...");
+                        + "Program will close...");
                 return false;
             }
         } catch (FileNotFoundException ex) {
-            System.out.println("The " + filename + " does not exist!\n"
-                    + "\nProgram will close...");
+            System.out.println("The " + filename + " does not exist!");
             return false;
         }
     }
 
+    /*
+    The core of the first iteration, once the file is loaded, this method will
+    be called to given the content of each of the cells in the spreadsheet, the
+    final results for each cell are calculated.
+    */
     public void executeResults() {
         Iterator it = this.cellMap.keySet().iterator();
         while (it.hasNext()) {
@@ -86,6 +90,10 @@ public class Spreadsheet {
         }
     }
 
+    /*
+    Method used to update the textual interface once something has been changed
+    in the spreadsheet.
+    */
     public void updateTUI() {
         String key, column;
         int row;

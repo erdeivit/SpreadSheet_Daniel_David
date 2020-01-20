@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Daniel León
+ * @author Daniel León and David Hernández
  */
 public class Main {
 
@@ -15,9 +15,11 @@ public class Main {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
+        boolean decisionOK = false;
         System.out.println("TEXT ('text') or Graphic ('graphic') user interface? - Graphic not available for the moment-");
         String tClient = scanner.nextLine();
         if (!tClient.equalsIgnoreCase("text") && !tClient.equalsIgnoreCase("")) {
@@ -26,6 +28,7 @@ public class Main {
         }
         spreadsheet = new Spreadsheet();
         //Initializate the spreadsheet (load the file)
+        while(!decisionOK){
         System.out.println("Do you want to load or create new file? (LOAD/create)");
         String decision = scanner.nextLine();
         switch (decision) {
@@ -34,22 +37,28 @@ public class Main {
             case "":
                 System.out.println("Introduce the filename (include the file extension) - e.g spreadsheet.txt");
                 filename = scanner.nextLine();
+                if (spreadsheet.loadFile(filename)) {
+                    decisionOK = true;
+                }           
                 break;
             case "CREATE":
             case "create":
-                System.out.println("Introduce the filename (include the file extension) "
-                        + "and number of columns and rows  - e.g spreadsheet.txt/10/10");
+                System.out.println("Introduce the filename.txt/columns/rows"
+                        + " - e.g spreadsheet.txt/10/10");
                 String command = scanner.nextLine();
                 String[] parts = command.split("/", 3);
                 createFile(parts[0], Integer.valueOf(parts[1]), Integer.valueOf(parts[2]));
                 filename = parts[0];
                 System.out.println("Created!");
+                if (spreadsheet.loadFile(filename)) {
+                    decisionOK = true;
+                }
                 break;
             default:
-                System.out.println("Unknown decision: " + decision + " load/created operation aborted!....leaving session");
-                return;
+                System.out.println("Unknown decision: " + decision);
+                break;
         }
-        if (spreadsheet.loadFile(filename)) {
+        if (decisionOK) {
             spreadsheet.executeResults();
             spreadsheet.updateTUI();
             boolean end = false;
@@ -63,8 +72,8 @@ public class Main {
                 end = processCommand(command);
             }
         }
+        }
     }
-
     public static boolean processCommand(String command) throws FileNotFoundException, IOException {
         Scanner scanner = new Scanner(System.in);
         switch (command) {

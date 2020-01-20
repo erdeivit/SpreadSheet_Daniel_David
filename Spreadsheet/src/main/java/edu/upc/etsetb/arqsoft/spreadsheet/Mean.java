@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  *
- * @author David Hernandez
+ * @author Daniel León and David Hernández
  */
 public class Mean extends Function {
 

@@ -12,7 +12,7 @@ import java.util.Stack;
 
 /**
  *
- * @author Daniel León
+ * @author Daniel León and David Hernández
  */
 public class Calculator {
 
@@ -42,7 +42,12 @@ public class Calculator {
             return getContentCellsInaRange(this.infix);
         }
     }
-
+    /*
+    The main objective of this function is that given a expression of the content
+    of a cell, it returns an infix expression. That means that this function is 
+    in charge of managing references to cells, ranges and functions and once
+    finished, return an infix expression with just numbers and operators
+    */
     public void processReferences()
             throws ExpressionException {
         String expression = "";
@@ -117,9 +122,7 @@ public class Calculator {
                             } else {
                                 c = "";
                             }
-                        }
-                        //FROM HERE PROGRAM THE "SEARCH OF THE CELL RANGEEEEE------"
-                        //expression = expression + cell_reference;                 
+                        }             
                         if (!isAFunctionRange) {
                             throw new ExpressionException("Found range " + cell_reference + c + " that is not "
                                     + "an argument of a function.");
@@ -128,7 +131,7 @@ public class Calculator {
                             this.noCalculateRange = true;
                         }
                     } else {
-                        //FROM HERE PROGRAM THE "SEARCH OF THE CELL reference"
+                        //Manage the cell_reference
                         if (this.cellMap.get(cell_reference) == null) {
                             //This line detects if the given reference does not exist
                             expression = expression + 0;
@@ -139,7 +142,6 @@ public class Calculator {
                         } else {
                             switch (this.cellMap.get(cell_reference).getData().getClass().getSimpleName()) {
                                 case "NumericalValue":
-                                    //this.cellMap.get(cell_reference).getData().computeResult(this.cellMap);
                                     expression = expression + this.cellMap.get(cell_reference).getData().getContent();
                                     break;
                                 case "Text":
@@ -164,7 +166,6 @@ public class Calculator {
                 else if (c.matches("\\(")) {
                     i++;
                     c = String.valueOf(this.content.charAt(i));
-                    String restOfFunction = this.content.substring(i);
                     int number_open_parenthesis = 1;
                     String functionContent = "";
                     int t = 0;
@@ -197,7 +198,7 @@ public class Calculator {
                                 //CONTINUE FROM THE END OF THE FUNCTION
                                 this.content = this.content.substring(++i);
                                 i = 0;
-                                break; //FUNCTION IS ALREADY IMPLEMENTED
+                                break;
                             }
                         } catch (IllegalArgumentException ex) {
                         }
@@ -208,10 +209,14 @@ public class Calculator {
         this.infix = expression;
     }
 
+    /*
+    This function of the Calculator, returns the final result of the function
+    in a given cell. It uses the postfix expression which is contained in the
+    queue to calculate it.
+    */
     public double evaluatePostfix() throws ExpressionException {
         Stack stack = new Stack();
         int queue_size = this.queue.size();
-        //Check if is a number
         for (int i = 0; i < queue_size; i++) {
             String c = (String) this.queue.peek();
             if (c.matches("-?\\d+(\\.\\d+)?")) {
@@ -270,7 +275,13 @@ public class Calculator {
         this.isAFunctionRange = isAFunctionRange;
     }
 
+    /*
+    The function getContentCellsInaRange() is intented to return a String with
+    the content of all the cells within a range separated by ";". All these contents
+    have to be processed again.
+    */
     public String getContentCellsInaRange(String range) throws ExpressionException {
+
         String begginingRange, endRange, column, key;
         int num_letters = 0, i = 0, initial_row, final_row, row;
         double initial_column = 0, final_column = 0;

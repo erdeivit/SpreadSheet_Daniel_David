@@ -9,14 +9,21 @@ import java.util.Map;
 
 /**
  *
- * @author Daniel León
+ * @author Daniel León and David Hernández
  */
 public abstract class Function {
     protected String[] factors = null;
     protected String result;
     protected String[] splittedFactor = null;
 
-    public Function(String expression) {       
+    /*
+    The abstract class function is used to manage the different ways of 
+    calculating the implemented functions in the program. Its constructor has
+    the capability of splitting all the factors and store them in the 
+    String[] factors variable of the Function.
+    */
+    public Function(String expression) {
+        
         this.factors = expression.split(",");
         int k = 1;
         for (int j = 0; j < this.factors.length; j++) {
