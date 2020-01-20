@@ -15,9 +15,7 @@ import java.util.Scanner;
  * @author Daniel León
  */
 public class Main {
-
     public static String filename;
-
     public static Spreadsheet spreadsheet;
 
     /**
@@ -25,22 +23,20 @@ public class Main {
      */
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Text ('text') or Graphic ('graphic') user interface? - Graphic not available for the moment-");
+        System.out.println("TEXT ('text') or Graphic ('graphic') user interface? - Graphic not available for the moment-");
         String tClient = scanner.nextLine();
-        if (!tClient.equalsIgnoreCase("text")) {
+        if (!tClient.equalsIgnoreCase("text") && !tClient.equalsIgnoreCase("")) {
             System.out.println("Graphic user interface not available....leaving session");
             return;
         }
         spreadsheet = new Spreadsheet();
         //Initializate the spreadsheet (load the file)
-        System.out.println("Do you want to load or create new file? (load/create)");
+        System.out.println("Do you want to load or create new file? (LOAD/create)");
         String decision = scanner.nextLine();
-
         switch (decision) {
-
             case "load":
             case "LOAD":
+            case "":
                 System.out.println("Introduce the filename (include the file extension) - e.g spreadsheet.txt");
                 filename = scanner.nextLine();
                 break;
@@ -55,35 +51,25 @@ public class Main {
                 System.out.println("Created!");
                 break;
             default:
-
                 System.out.println("Unknown decision: " + decision + " load/created operation aborted!....leaving session");
                 return;
-
         }
-
         if (spreadsheet.loadFile(filename)) {
-
             spreadsheet.executeResults();
             spreadsheet.updateTUI();
-
             boolean end = false;
             String command;
             while (!end) {
                 System.out.println("\n--------Choose one of the following options--------\n"
                         + "edit - Edits one cell \n"
                         + "save - Saves the file \n"
-                        + "exit - Finishes the execution of the program");
-
+                        + "EXIT - Finishes the execution of the program");
                 command = scanner.nextLine();
                 end = processCommand(command);
-
             }
-
         }
-
-        //String filename = "spreadsheet.txt"; //TO DELETE
     }
-
+    
     public static boolean processCommand(String command) throws FileNotFoundException, IOException {
         Scanner scanner = new Scanner(System.in);
         switch (command) {
@@ -107,14 +93,11 @@ public class Main {
                     spreadsheet.updateTUI();
                     return false;
                 }
-
             case "save":
             case "SAVE":
                 System.out.println("Do you want to overwrite the actual file? (Y/N)");
                 String decision = scanner.nextLine();
-
                 switch (decision) {
-
                     case "Y":
                     case "y":
                         spreadsheet.saveFile(filename);
@@ -126,50 +109,37 @@ public class Main {
                         String newFileName = scanner.nextLine();
                         spreadsheet.saveFile(newFileName);
                         System.out.println("Saved!");
-
                     default:
-
                         System.out.println("Unknown decision: " + command + " save operation aborted!");
-
                         break;
-
                 }
                 return false;
             case "exit":
             case "EXIT":
+            case "":
                 return true;
             default:
                 System.out.println("Unknown command: " + command);
                 return false;
-
         }
-
     }
 
     public static void createFile(String filename, int columns, int rows) throws FileNotFoundException, IOException {
-
         PrintWriter writer = new PrintWriter(filename, "UTF-8");
         String key, line, column;
         int row;
-
         for (int i = 0; i < rows; i++) {
-
             line = "";
-
             for (int j = 0; j < columns; j++) {
-
                 column = toAlphabetic(j);
                 row = i + 1;
                 key = column + String.valueOf(row);
                 if (j + 1 != columns) {
                     line = line + ";";
                 }
-
             }
             writer.println(line);
         }
-
         writer.close();
     }
-
 }

@@ -177,35 +177,30 @@ public class Calculator {
 
                 } //THIS MEANS I HAVE LETTERS + ( WHICH CAN ONLY MEAN THAT IS A FUNCTION
                 else if (c.matches("\\(")) {
-
                     i++;
                     c = String.valueOf(this.content.charAt(i));
                     //NUEVO
-
                     String restOfFunction = this.content.substring(i);
-                    int count = StringUtils.countMatches(restOfFunction, "(") + 1;
+                    int number_open_parenthesis = 1;
                     String functionContent = "";
-
                     int t = 0;
-                    while (t < count) {
+                    while (t < number_open_parenthesis) {
                         while (!c.matches("\\)")) {
-                            if (i != this.content.length()) {
-                                functionContent = functionContent + c;
-                                i++;
-                                c = String.valueOf(this.content.charAt(i));
-                            } else {
-                                c = "";
+                            if (c.matches("\\("))
+                            {
+                              number_open_parenthesis++;
                             }
-                        }
-                        t++;
-                        if (t != count) {
                             functionContent = functionContent + c;
                             i++;
                             c = String.valueOf(this.content.charAt(i));
                         }
-
+                        t++;
+                        if (t != number_open_parenthesis) {
+                            functionContent = functionContent + c;
+                            i++;
+                            c = String.valueOf(this.content.charAt(i));
+                        }
                     }
-
                     //NUEVO
                     boolean functionexists = false;
                     ImplementedFunctions imp;
