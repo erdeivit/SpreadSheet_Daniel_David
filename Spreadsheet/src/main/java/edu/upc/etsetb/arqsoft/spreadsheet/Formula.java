@@ -29,7 +29,7 @@ public class Formula extends Data {
           this.result = calculator.calculate();
         } catch (ExpressionException ex) {
             this.result = ex.getMessage();
-        } catch (Exception EmtpyStackException)
+        } catch (Exception | StackOverflowError EmtpyStackException)
         {
             this.result = "Equation not correct. Review it or the cells references.";
         }

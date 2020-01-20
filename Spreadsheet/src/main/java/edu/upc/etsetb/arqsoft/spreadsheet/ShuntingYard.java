@@ -35,21 +35,69 @@ public class ShuntingYard {
     public void generatePostfix() {
         String c;
         int i = 0;
+        boolean previousOperator = false;
         while (i < this.infix.length()) {
             String num = "";
             c = String.valueOf(this.infix.charAt(i));
-            while (c.matches("-?\\d+(\\.\\d+)?") || c.matches("\\.")) {
-                num = num + c;
+            if (c.matches("-")) {
                 i++;
-                if (i != this.infix.length()) {
-                    c = String.valueOf(this.infix.charAt(i));
-                } else {
-                    c = "";
+                num = num + c;
+                if (!previousOperator) {
+                    c = "+";
+                    if (this.stack.isEmpty()) {
+                        this.stack.add(c);
+                    } else {
+                        String top = (String) this.stack.peek();
+                        //this means has less priority the new symbol
+                        if (pemdas(c, top) <= 0 && !"(".equals(top)) {
+                            this.queue.add(this.stack.pop());
+                            this.stack.add(c);
+                        } else {
+                            if (")".equals(c)) {
+                                Iterator itr = this.stack.iterator();
+                                while (itr.hasNext()) {
+                                    this.queue.add(this.stack.pop());
+                                    if (this.stack.size() != 0) {
+                                        if ("(".equals(this.stack.peek())) {
+                                            this.stack.pop();
+                                        }
+                                    }
+                                }
+                            } else {
+                                this.stack.add(c);
+                            }
+                        }
+                    }
+                }
+                c = String.valueOf(this.infix.charAt(i));
+                while (c.matches("-?\\d+(\\.\\d+)?") || c.matches("\\.")) {
+                    num = num + c;
+                    i++;
+                    if (i != this.infix.length()) {
+                        c = String.valueOf(this.infix.charAt(i));
+                    } else {
+                        c = "";
+                    }
+                }
+            } else {
+                while (c.matches("-?\\d+(\\.\\d+)?") || c.matches("\\.")) {
+                    num = num + c;
+                    i++;
+                    if (i != this.infix.length()) {
+                        c = String.valueOf(this.infix.charAt(i));
+                    } else {
+                        c = "";
+                    }
                 }
             }
             if (num.matches("-?\\d+(\\.\\d+)?")) {
                 this.queue.add(num);
+                previousOperator = false;
             } else {
+                if (!c.matches("[()]")) {
+                    //If there was a operator, not a parenthesis, we indicate it, to later on not changing the minus by a "+"
+                    previousOperator = true;
+                }
                 if (this.stack.isEmpty()) {
                     this.stack.add(c);
                 } else {

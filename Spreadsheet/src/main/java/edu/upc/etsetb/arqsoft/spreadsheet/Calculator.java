@@ -139,6 +139,7 @@ public class Calculator {
                         } else {
                             switch (this.cellMap.get(cell_reference).getData().getClass().getSimpleName()) {
                                 case "NumericalValue":
+                                    //this.cellMap.get(cell_reference).getData().computeResult(this.cellMap);
                                     expression = expression + this.cellMap.get(cell_reference).getData().getContent();
                                     break;
                                 case "Text":
